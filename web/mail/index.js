@@ -1,5 +1,4 @@
 function sendEmail() {
-  var templateParams = {};
 
   var request = new XMLHttpRequest();
   request.open("GET", "./dataset.json", false);

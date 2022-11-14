@@ -39,6 +39,25 @@ def createOvalAtCoords(x, y, size):
     canvas.create_oval(x - 50, y + 50, x + 50, y - 50, tags="lines")
 
 
+class PatchedCanvas(tkinter.Canvas):
+    def unbind(self, sequence, funcid=None):
+        '''
+        See:
+            http://stackoverflow.com/questions/6433369/
+            deleting-and-changing-a-tkinter-event-binding-in-python
+        '''
+
+        if not funcid:
+            self.tk.call('bind', self._w, sequence, '')
+            return
+        func_callbacks = self.tk.call(
+            'bind', self._w, sequence, None).split('\n')
+        new_callbacks = [
+            l for l in func_callbacks if l[6:6 + len(funcid)] != funcid]
+        self.tk.call('bind', self._w, sequence, '\n'.join(new_callbacks))
+        self.deletecommand(funcid)
+
+
 def mouseClickHandle(event):
     global move
     global movesCnt
@@ -62,7 +81,7 @@ def mouseClickHandle(event):
         if movesCnt == 9:
             print("nichya")
             print("restart after 3 seconds")
-            canvas.unbind("<Button-1>")
+            canvas.bind("<Button-1>")
             canvas.after(3000, restartGame)
 
         move = not move
@@ -131,7 +150,7 @@ window.geometry(
     f"{windowWidth}x{windowHeight}+{screenWidthCenter}+{screenHeightCenter}"
 )
 window.title("tic tac toe")
-canvas = tkinter.Canvas(width=windowWidth, height=windowHeight, bg="pink")
+canvas = PatchedCanvas(width=windowWidth, height=windowHeight, bg="pink")
 canvas.grid()
 createGrid(cellSize=100, padding=0)
 window.mainloop()
