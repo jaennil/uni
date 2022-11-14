@@ -1,3 +1,5 @@
+package programming_basics;
+
 import java.util.Scanner;
 
 public class global {
