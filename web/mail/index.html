@@ -1,0 +1,19 @@
+# node_modules/ .* *.exe
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>send email</title>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.0/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init("gfS0xsW0jB7TSwjVP");
+      })();
+    </script>
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <input type="text" placeholder="Тип мероприятия" id="event_type" />
+    <input type="text" placeholder="Название мероприятия" id="event_name" />
+    <button onclick="sendEmail()" name="button">Send email</button>
+  </body>
+</html>
