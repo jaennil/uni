@@ -48,12 +48,18 @@ public class t4 {
             if (char1index == -1 || char2index == -1) {
                 throw new Error("Can't find symbol in alphabets");
             } else if (char1index > char2index) {
-                return 1;
-            } else if (char1index < char2index) {
                 return -1;
+            } else if (char1index < char2index) {
+                return 1;
             } else {
                 continue;
             }
+        }
+
+        if (str1len > str2len) {
+            return -1;
+        } else if (str1len < str2len) {
+            return 1;
         }
 
         return 0;
