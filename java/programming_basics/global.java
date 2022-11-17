@@ -424,7 +424,18 @@ public class global {
 
     public static boolean includes(String string, char chr) {
         for (int i = 0; i < string.length(); i++) {
-            return true;
+            if (string.charAt(i) == chr) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean includes(char[] array, char chr) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == chr) {
+                return true;
+            }
         }
         return false;
     }
