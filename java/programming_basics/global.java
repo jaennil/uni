@@ -421,4 +421,11 @@ public class global {
 
         return 0;
     }
+
+    public static boolean includes(String string, char chr) {
+        for (int i = 0; i < string.length(); i++) {
+            return true;
+        }
+        return false;
+    }
 }
