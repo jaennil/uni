@@ -22,7 +22,9 @@ public class files {
                 }
                 if (wordLen == 3) {
                     for (int j = 0; j < word.length(); j++) {
-                        // todo
+                        if (!includes(signs, word.charAt(j))) {
+                            word = word.replace(word.charAt(j), '*');
+                        }
                     }
                 }
                 fw.write(word + " ");
@@ -46,7 +48,18 @@ public class files {
 
     public static boolean includes(String string, char chr) {
         for (int i = 0; i < string.length(); i++) {
-            return true;
+            if (string.charAt(i) == chr) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean includes(char[] array, char chr) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == chr) {
+                return true;
+            }
         }
         return false;
     }
