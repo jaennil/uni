@@ -55,7 +55,7 @@ public class t3 {
         String[] splited = fio.split(" ");
         String result = "";
         for (int i = 0, cnt = 0; i < splited.length; i++) {
-            if (splited[i] != "") {
+            if (splited[i].length() != 0) {
                 result += splited[i];
                 if (cnt != 2) {
                     result += " ";
