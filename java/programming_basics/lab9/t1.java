@@ -17,12 +17,12 @@ public class t1 {
                 for (int lineNumber = 1; in.hasNextLine(); lineNumber++) {
                     line = in.nextLine();
                     if (line.length() == 0) {
-                        System.out.println("found empty line " + lineNumber);
+                        System.out.println("found empty line " + lineNumber + "\n");
                         continue;
                     }
                     String[] splited = line.split(":");
                     if (splited.length != 3) {
-                        System.out.println("wrong formated line: " + lineNumber);
+                        System.out.println("wrong formated line: " + lineNumber + "\n");
                         continue;
                     }
                     String fio = formatFio(splited[0]);
@@ -54,7 +54,7 @@ public class t1 {
         String[] splited = fio.split(" ");
         String result = "";
         for (int i = 0, cnt = 0; i < splited.length; i++) {
-            if (splited[i] != "") {
+            if (splited[i].length() != 0) {
                 result += splited[i];
                 if (cnt != 2) {
                     result += " ";
