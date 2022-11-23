@@ -20,8 +20,8 @@ public class Z2{
 						cnt++;
 					}
 				}
-                System.out.println(cnt);
-                last_value = read_value;
+        System.out.println(cnt);
+        last_value = read_value;
 			}
 			catch(InputMismatchException e){
                 System.out.println("wrong input");
@@ -32,7 +32,5 @@ public class Z2{
 			}
 			iterator++;
 		}
-
-
 	}
 }
