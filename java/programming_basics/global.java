@@ -440,57 +440,77 @@ public class global {
         return false;
     }
 
-    public static int pow(int number, int power){
+    public static int pow(int number, int power) {
         int res = 1;
-        while (power > 0){
-            if ((power & 1) != 0){
-                res*=number;
+        while (power > 0) {
+            if ((power & 1) != 0) {
+                res *= number;
             }
             power >>= 1;
-            number*=number;
+            number *= number;
         }
         return res;
     }
-    
-    public static int rpow(int number, int power){
-        if (power == 0) return 1;
-        if ((power&1) != 0) return number*rpow(number*number, power>>1);
-        return rpow(number*number, power>>1);
+
+    public static int rpow(int number, int power) {
+        if (power == 0)
+            return 1;
+        if ((power & 1) != 0)
+            return number * rpow(number * number, power >> 1);
+        return rpow(number * number, power >> 1);
     }
-    
-    public static String bin(int number){
+
+    public static String bin(int number) {
         String res = "";
-        while (number > 0){
-            res+=String.valueOf(number%2);
-            number/=2;
+        while (number > 0) {
+            res += String.valueOf(number % 2);
+            number /= 2;
         }
         return reverse(res);
     }
-    
-    public static String reverse(String str){
+
+    public static String reverse(String str) {
         String res = "";
         for (int i = 0; i < str.length(); i++) {
-            res+=str.charAt(str.length()-i-1);
+            res += str.charAt(str.length() - i - 1);
         }
         return res;
     }
 
-  public static int factorial(int number){
-    int start = 1;
-    for (int i = 2; i < number+1; i++) {
-      start*=i;
+    public static int factorial(int number) {
+        int start = 1;
+        for (int i = 2; i < number + 1; i++) {
+            start *= i;
+        }
+
+        return start;
     }
 
-    return start;
-  }
+    public static int rfactorial(int number) {
+        return number == 0 ? 1 : number * rfactorial(number - 1);
+    }
 
-  public static int rfactorial(int number){
-    return number == 0 ? 1 : number*rfactorial(number-1);
-  }
+    public static int fib(int number) {
+        if (number == 0)
+            return 0;
+        if (number == 1)
+            return 1;
+        return fib(number - 2) + fib(number - 1);
+    }
 
-  public static int fib (int number){
-    if (number == 0) return 0;
-    if (number == 1) return 1;
-    return fib(number-2)+fib(number-1);
-  }
+    public static char[][] add(char[][] arr1, char[][] arr2) {
+        char[][] res = new char[arr1.length][arr1[0].length + arr2[0].length];
+        for (int i = 0; i < arr1.length; i++) {
+            for (int j = 0; j < arr1[0].length; j++) {
+                res[i][j] = arr1[i][j];
+            }
+        }
+
+        for (int i = 0; i < arr2.length; i++) {
+            for (int j = arr1[0].length, cnt = 0; j < arr1[0].length + arr2[0].length; j++, cnt++) {
+                res[i][j] = arr2[i][cnt];
+            }
+        }
+        return res;
+    }
 }
