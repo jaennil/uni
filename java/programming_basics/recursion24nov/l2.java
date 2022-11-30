@@ -26,21 +26,4 @@ public class l2 {
             return number * rpow(number * number, power >> 1);
         return rpow(number * number, power >> 1);
     }
-
-    public static String bin(int number) {
-        String res = "";
-        while (number > 0) {
-            res += String.valueOf(number % 2);
-            number /= 2;
-        }
-        return reverse(res);
-    }
-
-    public static String reverse(String str) {
-        String res = "";
-        for (int i = 0; i < str.length(); i++) {
-            res += str.charAt(str.length() - i - 1);
-        }
-        return res;
-    }
 }
