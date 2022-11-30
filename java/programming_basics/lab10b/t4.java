@@ -8,6 +8,7 @@ public class t4 {
 
     public static void main(String[] args) {
         while (true) {
+            System.out.print("enter number: ");
             int num = Integer.parseInt(in.nextLine());
             weirdprint(num);
         }
@@ -15,7 +16,7 @@ public class t4 {
 
     public static int weirdprint(int number) {
         int end = (number % 10);
-        System.out.println("end " + end);
+        System.out.println(end);
         if (number < 10)
             return number;
         return weirdprint((number - (number % 10)) / 10);
