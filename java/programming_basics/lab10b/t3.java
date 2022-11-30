@@ -8,8 +8,9 @@ public class t3 {
 
     public static void main(String[] args) {
         while (true) {
+            System.out.print("enter number: ");
             int num = Integer.parseInt(in.nextLine());
-            System.out.println(stdigit(num));
+            System.out.println("result: " + stdigit(num));
         }
     }
 
