@@ -12,10 +12,8 @@ def change_word(word):
 
 word = ""
 newstring = ""
-flag = False
 for index, symbol in enumerate(string):
     if symbol in punctuation:
-        flag = True
         if not word:
             newstring += symbol
             continue
@@ -23,9 +21,8 @@ for index, symbol in enumerate(string):
         newstring += changed_word + symbol
         word = ""
     else:
-        flag = False
         word += symbol
 if word:
     changed_word = change_word(word)
     newstring += changed_word
-print(f'{newstring = }')
+print(f"{newstring = }")
