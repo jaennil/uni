@@ -1,4 +1,3 @@
-from tkinter import W
 from PIL import Image, ImageDraw, ImageFont
 import random
 
