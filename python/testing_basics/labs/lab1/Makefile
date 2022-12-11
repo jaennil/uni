@@ -1,2 +1,2 @@
 all:
-	python 7.py 
+	python3 4.py 
