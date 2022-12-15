@@ -46,21 +46,23 @@ public class Main {
         Parrot p1 = new Parrot("Stas");
         Penguin p2 = new Penguin("Kolya");
         Parrot p3 = new Parrot("Petya");
-
-        Parrot p4 = new Parrot("Vlad");
-        Penguin p5 = new Penguin("Nikita");
-        Parrot p6 = new Parrot("Kirill");
-
+//
+//        Parrot p4 = new Parrot("Vlad");
+//        Penguin p5 = new Penguin("Nikita");
+//        Parrot p6 = new Parrot("Kirill");
+//
         BirdsTeam bt1 = new BirdsTeam(new Bird[]{p1,p2,p3}, p1);
+//
+//        BirdsTeam bt2 = new BirdsTeam(new Bird[]{p4,p5,p6}, p4);
+//        bt1.print();
+//        bt2.print();
+//        System.out.println("team 1 leader name " + bt1.getLeader().getName());
+//        System.out.println("team 2 leader name " + bt2.getLeader().getName());
+//        System.out.println();
+//        bt1.add(bt2);
+//        System.out.println("after adding team:");
+//        bt1.print();
 
-        BirdsTeam bt2 = new BirdsTeam(new Bird[]{p4,p5,p6}, p4);
-        bt1.print();
-        bt2.print();
-        System.out.println("team 1 leader name " + bt1.getLeader().getName());
-        System.out.println("team 2 leader name " + bt2.getLeader().getName());
-        System.out.println();
-        bt1.add(bt2);
-        System.out.println("after adding team:");
-        bt1.print();
+        Scene scene = new Scene(bt1);
     }
 }

@@ -1,5 +1,7 @@
 package org.example;
 
+import java.awt.*;
+
 public class BirdsTeam {
     private Bird[] team;
     private Bird leader;
@@ -36,4 +38,11 @@ public class BirdsTeam {
 
         bt.team = null;
     }
+
+    public void draw(Graphics graphics) {
+        for (Bird bird: team) {
+            bird.draw(graphics);
+        }
+    }
+
 }
