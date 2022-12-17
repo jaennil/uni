@@ -4,7 +4,9 @@ public class Matrix {
     private double [][] matrix;
 
     private int rows, columns;
+
     static Scanner in = new Scanner(System.in);
+
     public Matrix(int rows, int columns) {
         matrix = new double[rows][columns];
 
@@ -157,6 +159,7 @@ public class Matrix {
         }
         return true;
     }
+
     public void generate(double min, double max) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
@@ -174,6 +177,4 @@ public class Matrix {
         }
         System.out.println();
     }
-
-
 }
