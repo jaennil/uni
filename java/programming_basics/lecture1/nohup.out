@@ -1,0 +1,238 @@
+CompileCommand: exclude com/intellij/openapi/vfs/impl/FilePartNodeRoot.trieDescend bool exclude = true
+2022-12-28 11:45:28,572 [   5563]   WARN - #c.i.e.RunManager - Must be not called before project components initialized
+Info  | RdCoroutineScope          | 49:DefaultDispatcher-worker-33 | RdCoroutineHost overridden 
+2022-12-28 11:45:30,104 [   7095]   WARN - #c.i.o.w.i.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix ToolWindow (ID:  github.copilotToolWindow) or icon UrlResolver{ownerClass=com.github.copilot.CopilotIcons, classLoader=PluginClassLoader(plugin=PluginDescriptor(name=GitHub Copilot, id=com.github.copilot, descriptorPath=plugin.xml, path=~/.local/share/JetBrains/IntelliJIdea2022.3/github-copilot-intellij, version=1.1.38.2229, package=null, isBundled=false), packagePrefix=null, instanceId=38, state=active), overriddenPath='icons/copilot_toolwindow.svg', url=file:/unresolved, useCacheOnLoad=true}
+2022-12-28 11:45:30,685 [   7676]   WARN - #c.i.o.a.i.ActionUpdater - 320 ms to grab EDT for ToolWindowHeader$2#update@ToolwindowTitle (com.intellij.toolWindow.ToolWindowHeader$2)
+2022-12-28 11:45:35,240 [  12231] SEVERE - #com.github.copilot.lang.agent.RestartableCopilotAgentProcessService - IdeaLoggingEvent[message=Copilot Agent terminated unexpectedly. Exit code: 129, throwable=java.lang.RuntimeException: Copilot Agent terminated unexpectedly. Exit code: 129
+	at com.github.copilot.lang.agent.RestartableCopilotAgentProcessService$BaseDelegateImplementation.onRestartException(RestartableCopilotAgentProcessService.java:256)
+	at com.github.copilot.lang.agent.CopilotAgentProcessServiceImpl.handleAgentExceptionLocked(CopilotAgentProcessServiceImpl.java:261)
+	at com.github.copilot.lang.agent.CopilotAgentProcessServiceImpl.lambda$executeNotification$4(CopilotAgentProcessServiceImpl.java:319)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.io.IOException: Stream closed
+	at java.base/java.lang.ProcessBuilder$NullOutputStream.write(ProcessBuilder.java:445)
+	at java.base/java.io.OutputStream.write(OutputStream.java:162)
+	at java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:81)
+	at java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:142)
+	at com.github.copilot.lang.agent.vscodeRpc.VSCodeJsonRpc.sendBytes(VSCodeJsonRpc.java:78)
+	at com.github.copilot.lang.agent.vscodeRpc.VSCodeJsonRpc.sendNotification(VSCodeJsonRpc.java:54)
+	at com.github.copilot.lang.agent.CopilotAgentProcessServiceImpl.lambda$executeNotification$4(CopilotAgentProcessServiceImpl.java:316)
+	... 5 more
+]
+2022-12-28 11:45:42,933 [  19924]   WARN - #c.i.o.r.u.c.SdkDetector - No version is returned for detected SDK IDEA JDK at /home/johnil/bin/ideaIU-2022.3/idea-IU-223.7571.182
+2022-12-28 11:45:46,042 [  23033]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1_1
+2022-12-28 11:46:01,537 [  38528]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1_1
+2022-12-28 11:47:58,709 [ 155700]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1_1
+2022-12-28 11:48:02,932 [ 159923]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1_1
+2022-12-28 11:48:06,277 [ 163268]   WARN - #c.i.u.x.Binding - no accessors for org.jetbrains.idea.perforce.perforce.ConnectionId
+2022-12-28 11:48:06,542 [ 163533]   WARN - #c.i.e.RunManager - Must be not called before project components initialized
+2022-12-28 11:48:06,697 [ 163688]   WARN - #c.i.o.w.i.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix ToolWindow (ID:  github.copilotToolWindow) or icon UrlResolver{ownerClass=com.github.copilot.CopilotIcons, classLoader=PluginClassLoader(plugin=PluginDescriptor(name=GitHub Copilot, id=com.github.copilot, descriptorPath=plugin.xml, path=~/.local/share/JetBrains/IntelliJIdea2022.3/github-copilot-intellij, version=1.1.38.2229, package=null, isBundled=false), packagePrefix=null, instanceId=38, state=active), overriddenPath='icons/copilot_toolwindow.svg', url=file:/unresolved, useCacheOnLoad=true}
+2022-12-28 11:48:14,642 [ 171633]   WARN - #c.i.o.r.u.c.SdkDetector - No version is returned for detected SDK IDEA JDK at /home/johnil/bin/ideaIU-2022.3/idea-IU-223.7571.182
+2022-12-28 11:49:20,929 [ 237920]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:49:22,940 [ 239931]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:49:25,298 [ 242289]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:49:33,664 [ 250655]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:49:40,749 [ 257740]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:49:44,589 [ 261580]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:49:47,418 [ 264409]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:50:19,354 [ 296345]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:50:22,867 [ 299858]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:50:48,566 [ 325557]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:50:59,134 [ 336125]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:51:04,100 [ 341091]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:51:10,411 [ 347402]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:51:17,576 [ 354567]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:51:23,286 [ 360277]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:51:26,649 [ 363640]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:51:39,044 [ 376035]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:51:45,868 [ 382859]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:51:49,847 [ 386838]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:51:58,058 [ 395049]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?u, raw: ESC[?u)
+2022-12-28 11:51:58,089 [ 395080]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[>4;2m, raw: ESC[>4;2m)
+2022-12-28 11:51:58,090 [ 395081]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?1004h, raw: ESC[?1004h)
+2022-12-28 11:51:58,213 [ 395204]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:51:58,213 [ 395204]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:51:59,296 [ 396287]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:52:08,521 [ 405512]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:52:08,937 [ 405928]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:52:08,938 [ 405929]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:52:08,938 [ 405929]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[>4;0m, raw: ESC[>4;0m)
+2022-12-28 11:52:08,939 [ 405930]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?1004l, raw: ESC[?1004l)
+2022-12-28 11:52:20,275 [ 417266]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:52:24,083 [ 421074]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:52:27,258 [ 424249]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:52:35,566 [ 432557]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:52:36,652 [ 433643]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:52:39,060 [ 436051]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:52:41,719 [ 438710]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?u, raw: ESC[?u)
+2022-12-28 11:52:41,745 [ 438736]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[>4;2m, raw: ESC[>4;2m)
+2022-12-28 11:52:41,746 [ 438737]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?1004h, raw: ESC[?1004h)
+2022-12-28 11:52:41,866 [ 438857]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:52:41,866 [ 438857]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:52:42,843 [ 439834]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:52:48,226 [ 445217]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:52:48,614 [ 445605]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:52:48,614 [ 445605]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:52:48,614 [ 445605]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[>4;0m, raw: ESC[>4;0m)
+2022-12-28 11:52:48,614 [ 445605]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?1004l, raw: ESC[?1004l)
+2022-12-28 11:52:58,689 [ 455680]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:53:06,819 [ 463810]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:53:11,671 [ 468662]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:53:18,377 [ 475368]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:53:25,632 [ 482623]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:53:28,751 [ 485742]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:53:30,300 [ 487291]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?u, raw: ESC[?u)
+2022-12-28 11:53:30,339 [ 487330]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[>4;2m, raw: ESC[>4;2m)
+2022-12-28 11:53:30,340 [ 487331]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?1004h, raw: ESC[?1004h)
+2022-12-28 11:53:30,460 [ 487451]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:53:30,461 [ 487452]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:53:34,037 [ 491028]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:53:34,922 [ 491913]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:53:35,239 [ 492230]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:53:35,239 [ 492230]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:53:35,239 [ 492230]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[>4;0m, raw: ESC[>4;0m)
+2022-12-28 11:53:35,240 [ 492231]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?1004l, raw: ESC[?1004l)
+2022-12-28 11:53:42,977 [ 499968]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:54:02,307 [ 519298]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:54:09,733 [ 526724]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:54:12,716 [ 529707]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:54:19,665 [ 536656]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?u, raw: ESC[?u)
+2022-12-28 11:54:19,752 [ 536743]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[>4;2m, raw: ESC[>4;2m)
+2022-12-28 11:54:19,752 [ 536743]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?1004h, raw: ESC[?1004h)
+2022-12-28 11:54:19,817 [ 536808]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:54:19,817 [ 536808]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:54:20,540 [ 537531]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,487 [ 643478]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,488 [ 643479]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,496 [ 643487]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,496 [ 643487]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,537 [ 643528]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,538 [ 643529]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,559 [ 643550]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,561 [ 643552]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,592 [ 643583]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,593 [ 643584]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,644 [ 643635]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,644 [ 643635]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,732 [ 643723]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,733 [ 643724]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,804 [ 643795]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,804 [ 643795]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,857 [ 643848]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,857 [ 643848]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,912 [ 643903]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:06,912 [ 643903]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:07,175 [ 644166]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:07,176 [ 644167]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:07,316 [ 644307]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:07,317 [ 644308]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:07,431 [ 644422]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:07,431 [ 644422]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:07,547 [ 644538]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:07,547 [ 644538]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,796 [ 645787]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,797 [ 645788]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,822 [ 645813]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,823 [ 645814]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,847 [ 645838]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,860 [ 645851]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,866 [ 645857]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,868 [ 645859]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,879 [ 645870]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,879 [ 645870]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,884 [ 645875]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,885 [ 645876]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,892 [ 645883]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:08,900 [ 645891]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:43,412 [ 680403]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:56:46,431 [ 683422]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:46,792 [ 683783]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:46,792 [ 683783]   WARN - com.jediterm.terminal.emulator.JediEmulator - Error processing OSC: ESC]112BEL
+2022-12-28 11:56:46,792 [ 683783]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[>4;0m, raw: ESC[>4;0m)
+2022-12-28 11:56:46,792 [ 683783]   WARN - com.jediterm.terminal.emulator.JediEmulator - Unhandled Control Sequence (parsed: ESC[?1004l, raw: ESC[?1004l)
+2022-12-28 11:56:49,493 [ 686484]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:56:54,944 [ 691935]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:56:57,964 [ 694955]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:57:00,981 [ 697972]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:57:03,999 [ 700990]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project lab1
+2022-12-28 11:57:08,641 [ 705632]   WARN - #c.i.e.RunManager - Must be not called before project components initialized
+2022-12-28 11:57:08,730 [ 705721]   WARN - #c.i.o.w.i.ToolWindowImpl - ToolWindow icons should be 13x13. Please fix ToolWindow (ID:  github.copilotToolWindow) or icon UrlResolver{ownerClass=com.github.copilot.CopilotIcons, classLoader=PluginClassLoader(plugin=PluginDescriptor(name=GitHub Copilot, id=com.github.copilot, descriptorPath=plugin.xml, path=~/.local/share/JetBrains/IntelliJIdea2022.3/github-copilot-intellij, version=1.1.38.2229, package=null, isBundled=false), packagePrefix=null, instanceId=38, state=active), overriddenPath='icons/copilot_toolwindow.svg', url=file:/unresolved, useCacheOnLoad=true}
+2022-12-28 11:57:18,193 [ 715184]   WARN - #c.i.o.r.u.c.SdkDetector - No version is returned for detected SDK IDEA JDK at /home/johnil/bin/ideaIU-2022.3/idea-IU-223.7571.182
+2022-12-28 12:04:20,483 [1137474]   WARN - #c.i.o.o.e.ConfigurableExtensionPointUtil - ignore deprecated groupId: language for id: preferences.language.Kotlin.scripting
+2022-12-28 12:04:21,012 [1138003]   WARN - #c.i.o.o.n.SettingsTreeView$MyBuilder - 'AbstractTreeBuilder' is going to be dropped soon and must not be used
+com.intellij.diagnostic.PluginException: 'AbstractTreeBuilder' is going to be dropped soon and must not be used
+	at com.intellij.diagnostic.PluginProblemReporterImpl.createPluginExceptionByClass(PluginProblemReporterImpl.java:23)
+	at com.intellij.diagnostic.PluginException.createByClass(PluginException.java:83)
+	at com.intellij.ide.util.treeView.AbstractTreeBuilder.<init>(AbstractTreeBuilder.java:60)
+	at com.intellij.ide.util.treeView.AbstractTreeBuilder.<init>(AbstractTreeBuilder.java:55)
+	at com.intellij.ide.util.treeView.AbstractTreeBuilder.<init>(AbstractTreeBuilder.java:47)
+	at com.intellij.ui.treeStructure.filtered.FilteringTreeBuilder.<init>(FilteringTreeBuilder.java:46)
+	at com.intellij.openapi.options.newEditor.SettingsTreeView$MyBuilder.<init>(SettingsTreeView.java:931)
+	at com.intellij.openapi.options.newEditor.SettingsTreeView.<init>(SettingsTreeView.java:174)
+	at com.intellij.openapi.options.newEditor.SettingsDialog.treeViewFactory(SettingsDialog.java:89)
+	at com.intellij.openapi.options.newEditor.SettingsEditor.<init>(SettingsEditor.java:194)
+	at com.intellij.openapi.options.newEditor.SettingsDialog.<init>(SettingsDialog.java:65)
+	at com.intellij.openapi.options.newEditor.SettingsDialogFactory.create(SettingsDialogFactory.java:38)
+	at com.intellij.ide.actions.ShowSettingsUtilImpl.getDialog(ShowSettingsUtilImpl.java:39)
+	at com.intellij.ide.actions.ShowSettingsUtilImpl.showSettingsDialog(ShowSettingsUtilImpl.java:90)
+	at com.intellij.ide.actions.ShowSettingsAction.perform(ShowSettingsAction.java:60)
+	at com.intellij.ide.actions.ShowSettingsAction.actionPerformed(ShowSettingsAction.java:47)
+	at com.intellij.openapi.actionSystem.ex.ActionUtil.doPerformActionOrShowPopup(ActionUtil.java:323)
+	at com.intellij.openapi.actionSystem.ex.ActionUtil.lambda$performActionDumbAwareWithCallbacks$4(ActionUtil.java:302)
+	at com.intellij.openapi.actionSystem.ex.ActionUtil.performDumbAwareWithCallbacks(ActionUtil.java:346)
+	at com.intellij.openapi.actionSystem.ex.ActionUtil.performActionDumbAwareWithCallbacks(ActionUtil.java:302)
+	at com.intellij.openapi.actionSystem.impl.ActionMenuItem.lambda$performAction$5(ActionMenuItem.java:296)
+	at com.intellij.openapi.wm.impl.FocusManagerImpl.runOnOwnContext(FocusManagerImpl.java:226)
+	at com.intellij.openapi.actionSystem.impl.ActionMenuItem.performAction(ActionMenuItem.java:289)
+	at com.intellij.openapi.actionSystem.impl.ActionMenuItem.lambda$new$0(ActionMenuItem.java:64)
+	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972)
+	at com.intellij.openapi.actionSystem.impl.ActionMenuItem.lambda$fireActionPerformed$4(ActionMenuItem.java:111)
+	at com.intellij.openapi.application.TransactionGuardImpl.performActivity(TransactionGuardImpl.java:105)
+	at com.intellij.openapi.application.TransactionGuardImpl.performUserActivity(TransactionGuardImpl.java:94)
+	at com.intellij.openapi.actionSystem.impl.ActionMenuItem.fireActionPerformed(ActionMenuItem.java:111)
+	at com.intellij.ui.plaf.beg.BegMenuItemUI.doClick(BegMenuItemUI.java:526)
+	at com.intellij.ui.plaf.beg.BegMenuItemUI$MyMouseInputHandler.mouseReleased(BegMenuItemUI.java:558)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6648)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3392)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6413)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2266)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:5022)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2324)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4854)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4948)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4575)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4516)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2310)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2802)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4854)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:781)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:730)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:724)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:97)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:754)
+	at java.desktop/java.awt.EventQueue$5.run(EventQueue.java:752)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:751)
+	at com.intellij.ide.IdeEventQueue.defaultDispatchEvent(IdeEventQueue.java:909)
+	at com.intellij.ide.IdeEventQueue.dispatchMouseEvent(IdeEventQueue.java:831)
+	at com.intellij.ide.IdeEventQueue._dispatchEvent(IdeEventQueue.java:753)
+	at com.intellij.ide.IdeEventQueue.lambda$dispatchEvent$5(IdeEventQueue.java:437)
+	at com.intellij.openapi.progress.impl.CoreProgressManager.computePrioritized(CoreProgressManager.java:774)
+	at com.intellij.ide.IdeEventQueue.lambda$dispatchEvent$6(IdeEventQueue.java:436)
+	at com.intellij.openapi.application.TransactionGuardImpl.performActivity(TransactionGuardImpl.java:113)
+	at com.intellij.ide.IdeEventQueue.performActivity(IdeEventQueue.java:615)
+	at com.intellij.ide.IdeEventQueue.lambda$dispatchEvent$7(IdeEventQueue.java:434)
+	at com.intellij.openapi.application.impl.ApplicationImpl.runIntendedWriteActionOnCurrentThread(ApplicationImpl.java:813)
+	at com.intellij.ide.IdeEventQueue.dispatchEvent(IdeEventQueue.java:480)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:207)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:128)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:117)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:105)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:92)

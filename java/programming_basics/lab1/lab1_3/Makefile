@@ -1,2 +1,0 @@
-all:
-	java main.java
