@@ -43,7 +43,7 @@ public class Matrix {
         }
     }
 
-    public static Matrix add (Matrix a, Matrix b) {
+    public static Matrix add(Matrix a, Matrix b) {
         if (a.matrix.length != b.matrix.length || a.matrix[0].length != b.matrix[0].length) {
             System.out.println("Matrices must be the same size");
             return null;

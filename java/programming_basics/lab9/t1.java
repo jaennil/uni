@@ -1,68 +1,77 @@
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * t1
  */
 public class t1 {
     public static void main(String[] args) {
-        try (
-                FileWriter fw = new FileWriter("output.txt")) {
+        format();
+    }
+
+    public static void format() {
+        try (FileWriter fw = new FileWriter("output.txt")) {
             try (FileReader fr = new FileReader("input.txt")) {
-                Scanner in = new Scanner(fr);
-
+                Scanner file = new Scanner(fr);
                 String line;
-                for (int lineNumber = 1; in.hasNextLine(); lineNumber++) {
-                    line = in.nextLine();
+                for (int lineNumber = 1; file.hasNextLine(); lineNumber++) {
+                    line = file.nextLine();
                     if (line.length() == 0) {
-                        System.out.println("found empty line " + lineNumber + "\n");
+                        System.out.println("deleting empty line " + lineNumber);
                         continue;
                     }
-                    String[] splited = line.split(":");
-                    if (splited.length != 3) {
-                        System.out.println("wrong formated line: " + lineNumber + "\n");
+                    String[] data = line.split(":");
+                    if (data.length != 3) {
+                        System.out.println(line + " has not enough ':'");
                         continue;
                     }
-                    String fio = formatFio(splited[0]);
-                    String date = formatDate(splited[1]);
-                    String number = formatNumber(splited[2]);
-
+                    String fio = formatFio(data[0]);
+                    if (!goodFioData(fio)) {
+                        System.out.println(line + " has bad fio");
+                        continue;
+                    }
+                    String date = formatDate(data[1]);
+                    if (!goodDateData(date)) {
+                        System.out.println(line + " has bad date");
+                        continue;
+                    }
+                    if (isOlder(date, 20)) {
+                        System.out.println(fio + " is older than 20");
+                    } else {
+                        System.out.println(fio + " is younger than 20");
+                    }
+                    String number = formatNumber(data[2]);
+                    if (!goodNumberData(number)) {
+                        System.out.println(line + " has bad number");
+                        continue;
+                    }
                     fw.write(fio + ":");
                     fw.write(date + ":");
                     fw.write(number + "\n");
-                    System.out.println(fio);
-                    System.out.println(date);
-                    System.out.println(number);
-
-                    System.out.print("\n");
                 }
-            } catch (
-
-            IOException exception) {
+            } catch (IOException exception) {
                 System.out.println(exception.getMessage());
             }
 
         } catch (IOException exception) {
             System.out.println(exception.getMessage());
         }
-
     }
 
     public static String formatFio(String fio) {
-        String[] splited = fio.split(" ");
-        String result = "";
-        for (int i = 0, cnt = 0; i < splited.length; i++) {
-            if (splited[i].length() != 0) {
-                result += splited[i];
-                if (cnt != 2) {
-                    result += " ";
-                }
-                cnt++;
-            }
+        fio = fio.replaceAll("\\s+", " ");
+        if (fio.charAt(0) == ' ') {
+            fio = fio.substring(1);
         }
-        return result;
+        if (fio.charAt(fio.length() - 1) == ' ') {
+            fio = fio.substring(0, fio.length() - 1);
+        }
+        return fio;
     }
 
     public static String formatDate(String date) {
@@ -78,7 +87,7 @@ public class t1 {
 
     public static String formatNumber(String number) {
         String result = "";
-        char[] numberMarks = { '+', '(', ')', '-' };
+        char[] numberMarks = {'+', '(', ')', '-'};
         for (int i = 0; i < number.length(); i++) {
             char chr = number.charAt(i);
             if (Character.isDigit(chr) || includes(numberMarks, chr)) {
@@ -95,5 +104,36 @@ public class t1 {
             }
         }
         return false;
+    }
+
+    public static boolean isOlder(String burnDate, int age) {
+        String[] data = burnDate.split("\\.");
+        LocalDateTime ldt = LocalDateTime.now();
+        int year = ldt.getYear();
+        int person_year = Integer.parseInt(data[2]);
+        int person_month = Integer.parseInt(data[1]);
+        int person_day = Integer.parseInt(data[0]);
+        if (year - person_year < age) {
+            return false;
+        } else if (year - person_year > age) {
+            return true;
+        } else {
+            if (ldt.getMonthValue() > person_month) {
+                return false;
+            }
+            return ldt.getDayOfMonth() <= person_day;
+        }
+    }
+
+    public static boolean goodDateData(String date) {
+        return Pattern.matches("(\\d{2}\\.){2}\\d{4}", date);
+    }
+
+    public static boolean goodNumberData(String number) {
+        return Pattern.matches("\\+\\d\\(\\d{3}\\)\\d{3}-\\d{2}-\\d{2}", number);
+    }
+
+    public static boolean goodFioData(String fio) {
+        return Pattern.matches("([а-яА-Я]+\\s){2}[а-яА-Я]+", fio);
     }
 }

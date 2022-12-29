@@ -6,5 +6,22 @@ import java.util.Scanner;
 //        последовательности.
 
 public class t1 {
-
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int index = 0;
+        int input;
+        for (int iterator = 0; true; iterator++) {
+            try {
+                input = scan.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("wrong input");
+                break;
+            }
+            if (index == 0 && input == 0) {
+                index = iterator + 1;
+            }
+            System.out.println(index);
+        }
+        scan.close();
+    }
 }
