@@ -9,7 +9,7 @@ public class Penguin extends Bird{
         System.out.println("Penguins count: " + count);
         this.name = name;
 
-        size = 20;
+        size = 90;
 
     }
 
@@ -28,7 +28,8 @@ public class Penguin extends Bird{
     @Override
     public void draw(Graphics graphics) {
         super.draw(graphics);
-        graphics.setColor(Color.WHITE);
+        graphics.setColor(Color.BLUE);
         graphics.fillOval(x - size/4, y - size/4, size/2, size/2);
+        graphics.drawRect(x - size / 4, y - size / 4, size / 2, size / 2);
     }
 }

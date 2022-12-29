@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Scene extends JFrame {
-    public static final int WIDTH = 400;
-    public static final int HEIGHT = 400;
+    public static final int WIDTH = 900;
+    public static final int HEIGHT = 900;
     private BirdsTeam team;
 
     public Scene(BirdsTeam team) {
@@ -17,11 +17,6 @@ public class Scene extends JFrame {
 
     @Override
     public void paint(Graphics graphics) {
-//        graphics.setColor(new Color(255,0,0));
-//        graphics.drawLine(50,50,90,90);
-//        graphics.drawOval(140, 140, 180, 180);
-//        graphics.setColor(Color.ORANGE);
-//        graphics.fillOval(220, 220, 80, 80);
         team.draw(graphics);
     }
 }
