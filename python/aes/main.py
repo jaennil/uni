@@ -30,6 +30,27 @@ def left_shift(num: int, amount: int) -> int:
     return int("0b" + bin(num)[2 + amount:] + "0" * amount, base=2)
 
 
+def generate_round_keys(key: list[list[int]]):
+    """takes key and return list of 4x4 matrices with round keys"""
+    print_2dimensional_array_hex(key, "key")
+    temp = key[0][3]
+    for i in range(3):
+        key[i][3] = key[i + 1][3]
+    key[3][3] = temp
+    print_2dimensional_array_hex(key, "key after left shift")
+    hexed_key = matrix_to_hex_matrix(key)
+    aes_hexed_key = hex_matrix_to_aes_hex_matrix(hexed_key)
+    for i in range(4):
+        row = int("0x" + aes_hexed_key[i][3][2:3], base=16)
+        col = int("0x" + aes_hexed_key[i][3][3:4], base=16)
+        key[i][3] = s_box[row][col]
+    print_2dimensional_array_hex(key, "key after s box")
+    constant = [0x01, 0x00, 0x00, 0x00]
+    for i in range(4):
+        key[i][3] ^= constant[i]
+    print_2dimensional_array_hex(key, "test")
+
+
 def add_round_key(
     state_matrix: list[list[int]], roundkey_matrix: list[list[int]]
 ) -> list[list[int]]:
@@ -43,13 +64,23 @@ def add_round_key(
 
 def string_to_matrix(string: str) -> list[list[str]]:
     """takes string and writes it to matrix. if length of string is less than 16 it appends 0 to the end"""
-
     # append 0 to end of the string
     string = "{:<016s}".format(string)
     string_matrix = [["" for _ in range(4)] for _ in range(4)]
     for x in range(4):
         for y in range(4):
             string_matrix[x][y] = string[y * 4 + x]
+    return string_matrix
+
+
+def string_to_regular_matrix(string: str):
+    """takes string and writes it to matrix. if length of string is less than 16 it appends 0 to the end"""
+    # append 0 to end of the string
+    string = "{:<016s}".format(string)
+    string_matrix = [[-1 for _ in range(4)] for _ in range(4)]
+    for x in range(4):
+        for y in range(4):
+            string_matrix[x][y] = string[x * 4 + y]
     return string_matrix
 
 
@@ -65,7 +96,6 @@ def string_matrix_to_ascii_matrix(matrix: list[list[str]]) -> list[list[int]]:
 
 def matrix_to_hex_matrix(matrix: list[list[int]]) -> list[list[str]]:
     """takes int 4x4 matrix and return 4x4 matrix with str hex values"""
-
     hex_matrix = [["" for _ in range(4)] for _ in range(4)]
     for x in range(len(matrix[0])):
         for y in range(len(matrix)):
@@ -75,7 +105,6 @@ def matrix_to_hex_matrix(matrix: list[list[int]]) -> list[list[str]]:
 
 def hex_matrix_to_aes_hex_matrix(matrix: list[list[str]]) -> list[list[str]]:
     """takes hex matrix and append zeros to the length 4 e.g. 0xf -> 0x0f"""
-
     aes_hex_matrix = [["" for _ in range(4)] for _ in range(4)]
     for x in range(len(matrix[0])):
         for y in range(len(matrix)):
@@ -83,7 +112,6 @@ def hex_matrix_to_aes_hex_matrix(matrix: list[list[str]]) -> list[list[str]]:
                 aes_hex_matrix[y][x] = matrix[y][x]
             else:
                 aes_hex_matrix[y][x] = "0x0" + matrix[y][x][2]
-
     return aes_hex_matrix
 
 
@@ -105,7 +133,6 @@ def print_2dimensional_array_hex(two_dimensional_array, name="default name"):
 
 def sub_bytes(matrix: list[list[int]]) -> list[list[int]]:
     """aes bytes substitution"""
-
     hexed_matrix = matrix_to_hex_matrix(matrix)
     aes_hexed_matrix = hex_matrix_to_aes_hex_matrix(hexed_matrix)
     sub_bytes_matrix = [[-1 for _ in range(4)] for _ in range(4)]
@@ -119,7 +146,6 @@ def sub_bytes(matrix: list[list[int]]) -> list[list[int]]:
 
 def shift_rows(matrix):
     """aes shift rows"""
-
     matrix[1] = matrix[1][1:] + matrix[1][:1]
     matrix[2] = matrix[2][2:] + matrix[2][:2]
     matrix[3] = matrix[3][3:] + matrix[3][:3]
@@ -129,7 +155,6 @@ def shift_rows(matrix):
 def matrix_multiplication(matrix1, matrix2):
     # ! not working
     """if a is an m*n matrix and b is an n*p matrix"""
-
     m = len(matrix1)
     n = len(matrix1[0])
     if n != len(matrix2):
@@ -139,7 +164,6 @@ def matrix_multiplication(matrix1, matrix2):
 
 def multiply3(num: int) -> int:
     """aes GF multiplication by 3"""
-
     x = int(convert_hex_to_str_aes_hex(num)[2], base=16)
     y = int(convert_hex_to_str_aes_hex(num)[3], base=16)
     return multiply3_matrix[x][y]
@@ -155,7 +179,6 @@ def convert_hex_to_str_aes_hex(num: int) -> str:
 def multiply2(num: int) -> int:
     """aes GF multiplication by 2"""
     str_aes_hex_num = convert_hex_to_str_aes_hex(num)
-
     x = int(str_aes_hex_num[2], base=16)
     y = int(str_aes_hex_num[3], base=16)
     return multiply2_matrix[x][y]
@@ -163,7 +186,6 @@ def multiply2(num: int) -> int:
 
 def mix_columns(input_matrix: list[list[int]]) -> list[list[int]]:
     result_matrix = [[-1 for _ in range(4)] for _ in range(4)]
-
     for x in range(4):
         for y in range(4):
             temp = []
@@ -178,21 +200,18 @@ def mix_columns(input_matrix: list[list[int]]) -> list[list[int]]:
                 else:
                     print("mix columns rcon wrong value")
             result_matrix[y][x] = temp[0] ^ temp[1] ^ temp[2] ^ temp[3]
-
     return result_matrix
 
 
 def encryption(text, key):
     text_matrix = string_to_matrix(text)
     key_matrix = string_to_matrix(key)
-
     text_ascii_matrix = string_matrix_to_ascii_matrix(text_matrix)
     print_2dimensional_array_hex(text_ascii_matrix, "after text ascii matrix")
     key_ascii_matrix = string_matrix_to_ascii_matrix(key_matrix)
+    generate_round_keys(key_ascii_matrix)
     print_2dimensional_array_hex(key_ascii_matrix, "after text ascii matrix")
-
     state = text_ascii_matrix
-
     state = add_round_key(state, key_ascii_matrix)
     print_2dimensional_array_hex(state, "after first add round key")
     for _ in range(10):
@@ -202,7 +221,9 @@ def encryption(text, key):
         print_2dimensional_array_hex(state, "after shift rows")
         state = mix_columns(state)
         print_2dimensional_array_hex(state, "after mix columns")
-        state = add_round_key(state)
+        print_2dimensional_array_hex(state, "state")
+        print_2dimensional_array_hex(key_ascii_matrix, "key_ascii_matrix")
+        state = add_round_key(state, text_ascii_matrix)
         print_2dimensional_array_hex(state, "after add_round_key")
 
 
