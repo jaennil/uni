@@ -48,7 +48,23 @@ def generate_round_keys(key: list[list[int]]):
     constant = [0x01, 0x00, 0x00, 0x00]
     for i in range(4):
         key[i][3] ^= constant[i]
-    print_2dimensional_array_hex(key, "test")
+    print_2dimensional_array_hex(key, "after xor with constant")
+    test = [0xb3, 0x6e, 0xcb, 0xb7]
+    for i in range(4):
+        test[i] ^= constant[i]
+        print(hex(test[i]))
+    test2 = ['s', 'o', 'm', 'e']
+    for i in range(4):
+        test2[i] = ord(test2[i])
+    result = []
+    for i in range(4):
+        result.append(test2[i] ^ test[i])
+        print(hex(result[i]))
+
+    
+    
+
+
 
 
 def add_round_key(
