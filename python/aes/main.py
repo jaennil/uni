@@ -29,43 +29,51 @@ def left_shift(num: int, amount: int) -> int:
     """takes int return bitwise shift to left string"""
     return int("0b" + bin(num)[2 + amount:] + "0" * amount, base=2)
 
+def get_round_constant(i: int) -> int:
+    """takes int and return rcon value"""
+    if i == 1:
+        return 1
+    if i > 1 and get_round_constant(i-1) < 0x80:
+        return get_round_constant(i-1) * 2
+    if i > 1 and get_round_constant(i-1) >= 0x80:
+        return (get_round_constant(i-1) * 2) ^ 0x11b
+
 
 def generate_round_keys(key: list[list[int]]):
     """takes key and return list of 4x4 matrices with round keys"""
-    print_2dimensional_array_hex(key, "key")
-    temp = key[0][3]
-    for i in range(3):
-        key[i][3] = key[i + 1][3]
-    key[3][3] = temp
-    print_2dimensional_array_hex(key, "key after left shift")
-    hexed_key = matrix_to_hex_matrix(key)
-    aes_hexed_key = hex_matrix_to_aes_hex_matrix(hexed_key)
-    for i in range(4):
-        row = int("0x" + aes_hexed_key[i][3][2:3], base=16)
-        col = int("0x" + aes_hexed_key[i][3][3:4], base=16)
-        key[i][3] = s_box[row][col]
-    print_2dimensional_array_hex(key, "key after s box")
-    constant = [0x01, 0x00, 0x00, 0x00]
-    for i in range(4):
-        key[i][3] ^= constant[i]
-    print_2dimensional_array_hex(key, "after xor with constant")
-    test = [0xb3, 0x6e, 0xcb, 0xb7]
-    for i in range(4):
-        test[i] ^= constant[i]
-        print(hex(test[i]))
-    test2 = ['s', 'o', 'm', 'e']
-    for i in range(4):
-        test2[i] = ord(test2[i])
-    result = []
-    for i in range(4):
-        result.append(test2[i] ^ test[i])
-        print(hex(result[i]))
-
-    
+    constants = [[get_round_constant(i)] + [0x00]*3 for i in range(1, 11)]
+    result = [key]
+    for g in range(10):
+        key = [list(row) for row in result[g]]
+        newkey = [[-1 for _ in range(4)] for _ in range(4)]
+        round_constant = constants[g]
+        temp = key[0][3]
+        for i in range(3):
+            newkey[i][0] = key[i + 1][3]
+        newkey[3][0] = temp
+        hexed_key = matrix_to_hex_matrix(newkey)
+        aes_hexed_key = hex_matrix_to_aes_hex_matrix(hexed_key)
+        for i in range(4):
+            row = int("0x" + aes_hexed_key[i][0][2:3], base=16)
+            col = int("0x" + aes_hexed_key[i][0][3:4], base=16)
+            newkey[i][0] = s_box[row][col]
+        for i in range(4):
+            newkey[i][0] ^= round_constant[i]
+        for i in range(4):
+            newkey[i][0] ^= key[i][0]
+        for i in range(4):
+            newkey[i][1] = newkey[i][0] ^ key[i][1]
+        for i in range(4):
+            newkey[i][2] = newkey[i][1] ^ key[i][2]
+        for i in range(4):
+            newkey[i][3] = newkey[i][2] ^ key[i][3]
+        result.append(newkey)
+    return result
     
 
-
-
+def xor_list(list1: list[int], list2: list[int]) -> list[int]:
+    """takes 2 lists and return list with xored values"""
+    return [x ^ y for x, y in zip(list1, list2)]
 
 def add_round_key(
     state_matrix: list[list[int]], roundkey_matrix: list[list[int]]
