@@ -1,4 +1,5 @@
-from utils import s_box, rcon, multiply2_matrix, multiply3_matrix
+"""aes 128 cipher"""
+from utils import s_box, rcon, inv_rcon, multiply2_matrix, multiply3_matrix, inv_s_box, multiply9_matrix, multiply11_matrix, multiply13_matrix, multiply14_matrix
 
 
 def xor_strings(string1: str, string2: str) -> list[list[int]]:
@@ -8,7 +9,6 @@ def xor_strings(string1: str, string2: str) -> list[list[int]]:
     string2 = "{:<016s}".format(string2)
 
     xored_matrix = [[-1 for _ in range(4)] for _ in range(4)]
-    # write string to matrix
     string1_matrix = string_to_matrix(string1)
     string2_matrix = string_to_matrix(string2)
 
@@ -21,17 +21,8 @@ def xor_strings(string1: str, string2: str) -> list[list[int]]:
     return xored_matrix
 
 
-def key_expansion():
-    ...
-
-
-def left_shift(num: int, amount: int) -> int:
-    """takes int return bitwise shift to left string"""
-    return int("0b" + bin(num)[2 + amount:] + "0" * amount, base=2)
-
-
 def get_round_constant(i: int) -> int:
-    """takes int and return rcon value"""
+    """generates round constant for key expansion"""
     if i == 1:
         return 1
     if i > 1 and get_round_constant(i-1) < 0x80:
@@ -40,8 +31,8 @@ def get_round_constant(i: int) -> int:
         return (get_round_constant(i-1) * 2) ^ 0x11b
 
 
-def generate_round_keys(key: list[list[int]]):
-    """takes key and return list of 4x4 matrices with round keys"""
+def key_expansion(key: list[list[int]]):
+    """generates round keys for every round"""
     constants = [[get_round_constant(i)] + [0x00]*3 for i in range(1, 11)]
     result = [key]
     for g in range(10):
@@ -72,7 +63,7 @@ def generate_round_keys(key: list[list[int]]):
     return result
 
 
-def xor_list(list1: list[int], list2: list[int]) -> list[int]:
+def xor_lists(list1: list[int], list2: list[int]) -> list[int]:
     """takes 2 lists and return list with xored values"""
     return [x ^ y for x, y in zip(list1, list2)]
 
@@ -81,7 +72,6 @@ def add_round_key(
     state_matrix: list[list[int]], roundkey_matrix: list[list[int]]
 ) -> list[list[int]]:
     add_round_key_matrix = [[-1 for _ in range(4)] for _ in range(4)]
-
     for y in range(4):
         for x in range(4):
             add_round_key_matrix[y][x] = state_matrix[y][x] ^ roundkey_matrix[y][x]
@@ -112,7 +102,6 @@ def string_to_regular_matrix(string: str):
 
 def string_matrix_to_ascii_matrix(matrix: list[list[str]]) -> list[list[int]]:
     """takes string matrix and return int matrix with ascii values"""
-
     ascii_matrix = [[-1 for _ in range(4)] for _ in range(4)]
     for x in range(4):
         for y in range(4):
@@ -149,20 +138,19 @@ def remove_prefix_in_hex_matrix(matrix: list[list[str]]) -> list[list[str]]:
             no_prefix_matrix[y][x] = matrix[y][x][2:]
     return no_prefix_matrix
 
-def print_2dimensional_array(two_dimensional_array, name="default name"):
+
+def print_matrix(matrix, name="default name"):
     print("---print 2dimensional array " + name + "---")
-    for i in two_dimensional_array:
+    for i in matrix:
         print(i)
-    print("---end print 2dimensional array " + name + "---")
-    print()
+    print("---end print 2dimensional array " + name + "---\n")
 
 
-def print_2dimensional_array_hex(two_dimensional_array, name="default name"):
+def print_matrix_hex(matrix, name="default name"):
     print("---print 2dimensional array hex" + name + "---")
-    for i in two_dimensional_array:
+    for i in matrix:
         print(list(map(hex, i)))
-    print("---end print 2dimensional array hex" + name + "---")
-    print()
+    print("---end print 2dimensional array hex " + name + "---\n")
 
 
 def sub_bytes(matrix: list[list[int]]) -> list[list[int]]:
@@ -175,6 +163,19 @@ def sub_bytes(matrix: list[list[int]]) -> list[list[int]]:
             row = int("0x" + aes_hexed_matrix[y][x][2:3], base=16)
             col = int("0x" + aes_hexed_matrix[y][x][3:4], base=16)
             sub_bytes_matrix[y][x] = s_box[row][col]
+    return sub_bytes_matrix
+
+
+def inverse_sub_bytes(matrix: list[list[int]]):
+    """for decryption"""
+    hexed_matrix = matrix_to_hex_matrix(matrix)
+    aes_hexed_matrix = hex_matrix_to_aes_hex_matrix(hexed_matrix)
+    sub_bytes_matrix = [[-1 for _ in range(4)] for _ in range(4)]
+    for y in range(4):
+        for x in range(4):
+            row = int("0x" + aes_hexed_matrix[y][x][2:3], base=16)
+            col = int("0x" + aes_hexed_matrix[y][x][3:4], base=16)
+            sub_bytes_matrix[y][x] = inv_s_box[row][col]
     return sub_bytes_matrix
 
 
@@ -203,6 +204,34 @@ def multiply3(num: int) -> int:
     return multiply3_matrix[x][y]
 
 
+def multiply9(num: int) -> int:
+    """aes GF multiplication by 9"""
+    x = int(convert_hex_to_str_aes_hex(num)[2], base=16)
+    y = int(convert_hex_to_str_aes_hex(num)[3], base=16)
+    return multiply9_matrix[x][y]
+
+
+def multiply11(num: int) -> int:
+    """aes GF multiplication by 11"""
+    x = int(convert_hex_to_str_aes_hex(num)[2], base=16)
+    y = int(convert_hex_to_str_aes_hex(num)[3], base=16)
+    return multiply11_matrix[x][y]
+
+
+def multiply13(num: int) -> int:
+    """aes GF multiplication by 13"""
+    x = int(convert_hex_to_str_aes_hex(num)[2], base=16)
+    y = int(convert_hex_to_str_aes_hex(num)[3], base=16)
+    return multiply13_matrix[x][y]
+
+
+def multiply14(num: int) -> int:
+    """aes GF multiplication by 14"""
+    x = int(convert_hex_to_str_aes_hex(num)[2], base=16)
+    y = int(convert_hex_to_str_aes_hex(num)[3], base=16)
+    return multiply14_matrix[x][y]
+
+
 def convert_hex_to_str_aes_hex(num: int) -> str:
     if len(hex(num)) != 4:
         return "0x0" + hex(num)[2]
@@ -218,63 +247,111 @@ def multiply2(num: int) -> int:
     return multiply2_matrix[x][y]
 
 
-def mix_columns(input_matrix: list[list[int]]) -> list[list[int]]:
-    result_matrix = [[-1 for _ in range(4)] for _ in range(4)]
+def mix_columns(matrix: list[list[int]]) -> list[list[int]]:
+    result = [[-1 for _ in range(4)] for _ in range(4)]
     for x in range(4):
         for y in range(4):
             temp = []
             for rcon_xy in range(4):
                 # cell_result ^= rcon[y][rcon_xy] * input_matrix[x][rcon_xy]
                 if rcon[y][rcon_xy] == 2:
-                    temp.append(multiply2(input_matrix[rcon_xy][x]))
+                    temp.append(multiply2(matrix[rcon_xy][x]))
                 elif rcon[y][rcon_xy] == 3:
-                    temp.append(multiply3(input_matrix[rcon_xy][x]))
+                    temp.append(multiply3(matrix[rcon_xy][x]))
                 elif rcon[y][rcon_xy] == 1:
-                    temp.append(input_matrix[rcon_xy][x])
+                    temp.append(matrix[rcon_xy][x])
                 else:
                     print("mix columns rcon wrong value")
-            result_matrix[y][x] = temp[0] ^ temp[1] ^ temp[2] ^ temp[3]
-    return result_matrix
-
-
-def encryption(text: str, key: str) -> str:
-    text_matrix = string_to_matrix(text)
-    key_matrix = string_to_matrix(key)
-    text_ascii_matrix = string_matrix_to_ascii_matrix(text_matrix)
-    print_2dimensional_array_hex(text_ascii_matrix, "after text ascii matrix")
-    key_ascii_matrix = string_matrix_to_ascii_matrix(key_matrix)
-    round_keys = generate_round_keys(key_ascii_matrix)
-    generate_round_keys(key_ascii_matrix)
-    print_2dimensional_array_hex(key_ascii_matrix, "after text ascii matrix")
-    state = text_ascii_matrix
-    state = add_round_key(state, key_ascii_matrix)
-    print_2dimensional_array_hex(state, "after first add round key")
-    for i in range(10):
-        state = sub_bytes(state)
-        print_2dimensional_array_hex(state, name="after sub bytes")
-        state = shift_rows(state)
-        print_2dimensional_array_hex(state, "after shift rows")
-        if i != 9:
-            state = mix_columns(state)
-        print_2dimensional_array_hex(state, "after mix columns")
-        state = add_round_key(state, round_keys[i+1])
-        print_2dimensional_array_hex(state, "after add_round_key")
-    state = matrix_to_hex_matrix(state)
-    state = hex_matrix_to_aes_hex_matrix(state)
-    state = remove_prefix_in_hex_matrix(state)
-    result = ""
-    for x in range(4):
-        for y in range(4):
-            result += state[y][x]
+            result[y][x] = temp[0] ^ temp[1] ^ temp[2] ^ temp[3]
     return result
 
 
-TEXT = "ATTACK AT DAWN!"
-KEY = "SOME 128 BIT KEY"
-# xor_strings(text, key)
-TEXT2 = "Two One Nine Two"
-KEY2 = "Thats my Kung Fu"
+def inv_mix_columns(matrix: list[list[int]]):
+    result = [[-1 for _ in range(4)] for _ in range(4)]
+    for x in range(4):
+        for y in range(4):
+            temp = []
+            for rcon_xy in range(4):
+                # cell_result ^= rcon[y][rcon_xy] * input_matrix[x][rcon_xy]
+                if inv_rcon[y][rcon_xy] == 14:
+                    temp.append(multiply14(matrix[rcon_xy][x]))
+                elif inv_rcon[y][rcon_xy] == 11:
+                    temp.append(multiply11(matrix[rcon_xy][x]))
+                elif inv_rcon[y][rcon_xy] == 13:
+                    temp.append(multiply13(matrix[rcon_xy][x]))
+                elif inv_rcon[y][rcon_xy] == 9:
+                    temp.append(multiply9(matrix[rcon_xy][x]))
+                elif inv_rcon[y][rcon_xy] == 1:
+                    temp.append(matrix[rcon_xy][x])
+                else:
+                    print("mix columns rcon wrong value")
+            result[y][x] = temp[0] ^ temp[1] ^ temp[2] ^ temp[3]
+    return result
 
-encrypted_text = encryption(TEXT2, KEY2)
-print(encrypted_text)
 
+def encrypt(text: str, key: str) -> str:
+    text_matrix = string_to_matrix(text)
+    key_matrix = string_to_matrix(key)
+    text_ascii_matrix = string_matrix_to_ascii_matrix(text_matrix)
+    key_ascii_matrix = string_matrix_to_ascii_matrix(key_matrix)
+    round_keys = key_expansion(key_ascii_matrix)
+    state = text_ascii_matrix
+    state = add_round_key(state, round_keys[0])
+    for i in range(10):
+        state = sub_bytes(state)
+        state = shift_rows(state)
+        if i != 9:
+            state = mix_columns(state)
+        state = add_round_key(state, round_keys[i+1])
+    # state = matrix_to_hex_matrix(state)
+    # state = hex_matrix_to_aes_hex_matrix(state)
+    # state = remove_prefix_in_hex_matrix(state)
+    # result = ""
+    # for x in range(4):
+        # for y in range(4):
+            # result += state[y][x]
+    return state
+
+
+def inverse_shift_rows(matrix):
+    """for decryption"""
+    matrix[1] = matrix[1][3:] + matrix[1][:3]
+    matrix[2] = matrix[2][2:] + matrix[2][:2]
+    matrix[3] = matrix[3][1:] + matrix[3][:1]
+    return matrix
+
+
+def matrix2text(matrix):
+    text = 0
+    for i in range(4):
+        for j in range(4):
+            text |= (matrix[i][j] << (120 - 8 * (4 * i + j)))
+    return text
+
+
+def decrypt(text: str, key: str) -> str:
+    key_matrix = string_to_matrix(key)
+    key_ascii_matrix = string_matrix_to_ascii_matrix(key_matrix)
+    round_keys = key_expansion(key_ascii_matrix)
+    state = text
+    state = add_round_key(state, round_keys[10])
+    state = inverse_shift_rows(state)
+    state = inverse_sub_bytes(state)
+    for i in range(9):
+        state = add_round_key(state, round_keys[9-i])
+        state = inv_mix_columns(state)
+        state = inverse_shift_rows(state)
+        state = inverse_sub_bytes(state)
+    state = add_round_key(state, round_keys[0])
+    result = ""
+    for x in range(4):
+        for y in range(4):
+            result += chr(state[y][x])
+    return result
+
+
+if __name__ == "__main__":
+    TEXT = "Two One Nine Two"
+    KEY = "Thats my Kung Fu"
+    enc_text = encrypt(TEXT, KEY)
+    print(decrypt(enc_text, KEY))
