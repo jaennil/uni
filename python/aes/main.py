@@ -29,6 +29,7 @@ def left_shift(num: int, amount: int) -> int:
     """takes int return bitwise shift to left string"""
     return int("0b" + bin(num)[2 + amount:] + "0" * amount, base=2)
 
+
 def get_round_constant(i: int) -> int:
     """takes int and return rcon value"""
     if i == 1:
@@ -69,11 +70,12 @@ def generate_round_keys(key: list[list[int]]):
             newkey[i][3] = newkey[i][2] ^ key[i][3]
         result.append(newkey)
     return result
-    
+
 
 def xor_list(list1: list[int], list2: list[int]) -> list[int]:
     """takes 2 lists and return list with xored values"""
     return [x ^ y for x, y in zip(list1, list2)]
+
 
 def add_round_key(
     state_matrix: list[list[int]], roundkey_matrix: list[list[int]]
@@ -138,6 +140,14 @@ def hex_matrix_to_aes_hex_matrix(matrix: list[list[str]]) -> list[list[str]]:
                 aes_hex_matrix[y][x] = "0x0" + matrix[y][x][2]
     return aes_hex_matrix
 
+
+def remove_prefix_in_hex_matrix(matrix: list[list[str]]) -> list[list[str]]:
+    """takes hex matrix and remove prefix 0x from each element"""
+    no_prefix_matrix = [["" for _ in range(4)] for _ in range(4)]
+    for x in range(len(matrix[0])):
+        for y in range(len(matrix)):
+            no_prefix_matrix[y][x] = matrix[y][x][2:]
+    return no_prefix_matrix
 
 def print_2dimensional_array(two_dimensional_array, name="default name"):
     print("---print 2dimensional array " + name + "---")
@@ -227,28 +237,36 @@ def mix_columns(input_matrix: list[list[int]]) -> list[list[int]]:
     return result_matrix
 
 
-def encryption(text, key):
+def encryption(text: str, key: str) -> str:
     text_matrix = string_to_matrix(text)
     key_matrix = string_to_matrix(key)
     text_ascii_matrix = string_matrix_to_ascii_matrix(text_matrix)
     print_2dimensional_array_hex(text_ascii_matrix, "after text ascii matrix")
     key_ascii_matrix = string_matrix_to_ascii_matrix(key_matrix)
+    round_keys = generate_round_keys(key_ascii_matrix)
     generate_round_keys(key_ascii_matrix)
     print_2dimensional_array_hex(key_ascii_matrix, "after text ascii matrix")
     state = text_ascii_matrix
     state = add_round_key(state, key_ascii_matrix)
     print_2dimensional_array_hex(state, "after first add round key")
-    for _ in range(10):
+    for i in range(10):
         state = sub_bytes(state)
         print_2dimensional_array_hex(state, name="after sub bytes")
         state = shift_rows(state)
         print_2dimensional_array_hex(state, "after shift rows")
-        state = mix_columns(state)
+        if i != 9:
+            state = mix_columns(state)
         print_2dimensional_array_hex(state, "after mix columns")
-        print_2dimensional_array_hex(state, "state")
-        print_2dimensional_array_hex(key_ascii_matrix, "key_ascii_matrix")
-        state = add_round_key(state, text_ascii_matrix)
+        state = add_round_key(state, round_keys[i+1])
         print_2dimensional_array_hex(state, "after add_round_key")
+    state = matrix_to_hex_matrix(state)
+    state = hex_matrix_to_aes_hex_matrix(state)
+    state = remove_prefix_in_hex_matrix(state)
+    result = ""
+    for x in range(4):
+        for y in range(4):
+            result += state[y][x]
+    return result
 
 
 TEXT = "ATTACK AT DAWN!"
@@ -257,42 +275,6 @@ KEY = "SOME 128 BIT KEY"
 TEXT2 = "Two One Nine Two"
 KEY2 = "Thats my Kung Fu"
 
-encryption(TEXT2, KEY2)
-# text2_matrix = string_to_matrix(text2)
-# print_2dimensional_array(text2_matrix, name="text2_matrix")
-# key2_matrix = string_to_matrix(key2)
-# print_2dimensional_array(key2_matrix, name="key2_matrix")
-#
-# text2_ascii_matrix = string_matrix_to_ascii_matrix(text2_matrix)
-# text2_ascii_matrix_hex = matrix_to_hex_matrix(text2_ascii_matrix)
-# print_2dimensional_array(text2_ascii_matrix_hex, name="text2_ascii_matrix_hex")
-#
-# key2_ascii_matrix = string_matrix_to_ascii_matrix(key2_matrix)
-# key2_ascii_matrix_hex = matrix_to_hex_matrix(key2_ascii_matrix)
-# print_2dimensional_array(key2_ascii_matrix_hex, name="key2_ascii_matrix_hex")
-#
-# add_round_key_matrix = add_round_key(text2_ascii_matrix, key2_ascii_matrix)
-# add_round_key_matrix_hex = matrix_to_hex_matrix(add_round_key_matrix)
-# print_2dimensional_array(add_round_key_matrix_hex, name="add_round_key_matrix")
-#
-# sub_bytes_matrix = sub_bytes(add_round_key_matrix)
-# sub_bytes_matrix_hex = matrix_to_hex_matrix(sub_bytes_matrix)
-# print_2dimensional_array(sub_bytes_matrix_hex, name="sub_bytes_matrix")
-#
-# shift_rows_matrix = shift_rows(sub_bytes_matrix)
-# print_2dimensional_array(shift_rows_matrix, "shift_rows_matrix")
-#
-# aes_visual_matrix = [[0x87, 0x0a, 0x0b, 0x1a],
-#                      [0x16, 0x1b, 0x56, 0x83],
-#                      [0x47, 0xf1, 0x13, 0xbb],
-#                      [0xe7, 0xd5, 0xc6, 0x28]]
-# # for i in range(4):
-# # for j in range(4):
-# #aes_visual_matrix[i][j] = str(aes_visual_matrix[i][j])
-#
-# mixed_columns = mix_columns(shift_rows_matrix)
-# mixed_columns_hexed = matrix_to_hex_matrix(mixed_columns)
-# print_2dimensional_array(mixed_columns_hexed)
-#
-# print(f"{bin(multiply2(0x63)) = }")
-# print(f"{bin(multiply3(0x2f)) = }")
+encrypted_text = encryption(TEXT2, KEY2)
+print(encrypted_text)
+
