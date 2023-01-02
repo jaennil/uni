@@ -2,43 +2,38 @@
 from utils import s_box, rcon, inv_rcon, multiply2_matrix, multiply3_matrix, inv_s_box, multiply9_matrix, multiply11_matrix, multiply13_matrix, multiply14_matrix
 
 
-def xor_strings(string1: str, string2: str) -> list[list[int]]:
+def xor_strings(str1: str, str2: str) -> list[list[int]]:
     """takes 2 strings and return 4x4 matrix with xored string"""
-    # append zeros to end of the string
-    string1 = "{:<016s}".format(string1)
-    string2 = "{:<016s}".format(string2)
-
-    xored_matrix = [[-1 for _ in range(4)] for _ in range(4)]
-    string1_matrix = string_to_matrix(string1)
-    string2_matrix = string_to_matrix(string2)
-
-    # xor ascii values of strings
+    # append zeros to the end
+    str1 = "{:<016s}".format(str1)
+    str2 = "{:<016s}".format(str2)
+    result = [[-1 for _ in range(4)] for _ in range(4)]
+    str1_matrix = str2matrix(str1)
+    str2_matrix = str2matrix(str2)
     for x in range(4):
         for y in range(4):
-            xored_matrix[x][y] = int(
-                ord(string1_matrix[x][y]) ^ ord(string2_matrix[x][y])
-            )
-    return xored_matrix
+            result[x][y] = ord(str1_matrix[x][y]) ^ ord(str2_matrix[x][y])
+    return result
 
 
-def get_round_constant(i: int) -> int:
+def get_round_constant(round: int) -> int:
     """generates round constant for key expansion"""
-    if i == 1:
+    if round == 1:
         return 1
-    if i > 1 and get_round_constant(i-1) < 0x80:
-        return get_round_constant(i-1) * 2
-    if i > 1 and get_round_constant(i-1) >= 0x80:
-        return (get_round_constant(i-1) * 2) ^ 0x11b
+    if round > 1 and get_round_constant(round-1) < 0x80:
+        return get_round_constant(round-1) * 2
+    if round > 1 and get_round_constant(round-1) >= 0x80:
+        return (get_round_constant(round-1) * 2) ^ 0x11b
 
 
 def key_expansion(key: list[list[int]]):
     """generates round keys for every round"""
-    constants = [[get_round_constant(i)] + [0x00]*3 for i in range(1, 11)]
-    result = [key]
-    for g in range(10):
-        key = [list(row) for row in result[g]]
+    constants = [[get_round_constant(round)] + [0x00]*3 for round in range(1, 11)]
+    round_keys = [key]
+    for round in range(10):
+        key = [list(row) for row in round_keys[round]]
         newkey = [[-1 for _ in range(4)] for _ in range(4)]
-        round_constant = constants[g]
+        round_constant = constants[round]
         temp = key[0][3]
         for i in range(3):
             newkey[i][0] = key[i + 1][3]
@@ -53,14 +48,11 @@ def key_expansion(key: list[list[int]]):
             newkey[i][0] ^= round_constant[i]
         for i in range(4):
             newkey[i][0] ^= key[i][0]
-        for i in range(4):
-            newkey[i][1] = newkey[i][0] ^ key[i][1]
-        for i in range(4):
-            newkey[i][2] = newkey[i][1] ^ key[i][2]
-        for i in range(4):
-            newkey[i][3] = newkey[i][2] ^ key[i][3]
-        result.append(newkey)
-    return result
+        for j in range(3):
+            for i in range(4):
+                newkey[i][j+1] = newkey[i][j] ^ key[i][j+1]
+        round_keys.append(newkey)
+    return round_keys
 
 
 def xor_lists(list1: list[int], list2: list[int]) -> list[int]:
@@ -69,16 +61,16 @@ def xor_lists(list1: list[int], list2: list[int]) -> list[int]:
 
 
 def add_round_key(
-    state_matrix: list[list[int]], roundkey_matrix: list[list[int]]
+    state: list[list[int]], roundkey: list[list[int]]
 ) -> list[list[int]]:
     add_round_key_matrix = [[-1 for _ in range(4)] for _ in range(4)]
     for y in range(4):
         for x in range(4):
-            add_round_key_matrix[y][x] = state_matrix[y][x] ^ roundkey_matrix[y][x]
+            add_round_key_matrix[y][x] = state[y][x] ^ roundkey[y][x]
     return add_round_key_matrix
 
 
-def string_to_matrix(string: str) -> list[list[str]]:
+def str2matrix(string: str) -> list[list[str]]:
     """takes string and writes it to matrix. if length of string is less than 16 it appends 0 to the end"""
     # append 0 to end of the string
     string = "{:<016s}".format(string)
@@ -290,8 +282,8 @@ def inv_mix_columns(matrix: list[list[int]]):
 
 
 def encrypt(text: str, key: str) -> str:
-    text_matrix = string_to_matrix(text)
-    key_matrix = string_to_matrix(key)
+    text_matrix = str2matrix(text)
+    key_matrix = str2matrix(key)
     text_ascii_matrix = string_matrix_to_ascii_matrix(text_matrix)
     key_ascii_matrix = string_matrix_to_ascii_matrix(key_matrix)
     round_keys = key_expansion(key_ascii_matrix)
@@ -330,7 +322,7 @@ def matrix2text(matrix):
 
 
 def decrypt(text: str, key: str) -> str:
-    key_matrix = string_to_matrix(key)
+    key_matrix = str2matrix(key)
     key_ascii_matrix = string_matrix_to_ascii_matrix(key_matrix)
     round_keys = key_expansion(key_ascii_matrix)
     state = text
