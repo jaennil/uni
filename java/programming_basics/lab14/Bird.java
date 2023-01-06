@@ -1,11 +1,8 @@
-import org.w3c.dom.ls.LSOutput;
-
 import java.awt.*;
 
 public abstract class Bird {
     private String name;
-
-    private static int count = 0;
+    private int count = 0;
     protected int x, y;
     protected int size;
     protected Color color;
@@ -14,13 +11,13 @@ public abstract class Bird {
         count++;
         System.out.println("I'm a bird");
         System.out.println("Birds count: " + count);
-
-
         size = 130;
         x = (int) (Math.random() * (Scene.WIDTH - size*2) + size);
         y = (int) (Math.random() * (Scene.HEIGHT - size*2) + size);
+        if (x > Main.max_x) {
+            max_x = x;
+        }
     }
-
 
     public Bird(String name) {
         this.name = name;
