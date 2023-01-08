@@ -1,33 +1,37 @@
+import javax.swing.*;
 import java.awt.*;
 
 public class Cell {
-    private int x;
-    private int y;
+    public static final int SIZE = 20;
+    protected final int x, y;
     private boolean isAlive;
-
     private Color color;
+    protected JButton button;
 
     public Cell(int x, int y, boolean isAlive) {
         this.x = x;
         this.y = y;
         this.isAlive = isAlive;
         updateColor();
+        createButton();
     }
 
-    public int getX() {
-        return x;
+    private void createButton() {
+        button = new JButton();
+        button.setBounds(x * SIZE + 40, y * SIZE + 50, SIZE, SIZE);
+        button.setBackground(color);
     }
-
-    public int getY() {
-        return y;
-    }
-
     public boolean isAlive() {
         return isAlive;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     public void setAlive(boolean isAlive) {
         this.isAlive = isAlive;
+        updateColor();
     }
 
     public void updateColor() {
@@ -36,15 +40,8 @@ public class Cell {
         } else {
             color = Color.WHITE;
         }
+        if (button != null) {
+            button.setBackground(color);
+        }
     }
-
-    public String toString() {
-        return "Cell at (" + x + ", " + y + ") is " + (isAlive ? "alive" : "dead");
-    }
-
-    public void draw(Graphics graphics) {
-        graphics.drawRect(x, y, Field.CELL_SIZE, Field.CELL_SIZE);
-    }
-
-
 }
