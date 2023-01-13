@@ -324,4 +324,5 @@ if __name__ == "__main__":
     TEXT = "Two One Nine Two"
     KEY = "Thats my Kung Fu"
     enc_text = encrypt(TEXT, KEY)
+    print(enc_text)
     print(decrypt(enc_text, KEY))
