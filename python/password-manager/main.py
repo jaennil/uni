@@ -18,7 +18,7 @@ def main():
     new_password = ""
     debug = False
     new = False
-    no_symbol = False
+    no_symbols = False
     for i, arg in enumerate(args):
         if arg == "-l":
             length = int(args[i+1])
