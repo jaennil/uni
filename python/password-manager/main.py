@@ -16,12 +16,18 @@ def main():
     length = 16
     tag = ""
     new_password = ""
+    debug = False
     new = False
+    no_symbol = False
     for i, arg in enumerate(args):
         if arg == "-l":
             length = int(args[i+1])
         elif arg == "-n":
             new = True
+        elif arg == "-ns" or arg == "--no-symbols":
+            no_symbols = True
+        elif arg == "-p" or arg == "-d":
+            debug = True
         elif arg[0] != "-":
             if tag:
                 if new_password:
@@ -31,8 +37,11 @@ def main():
             else:
                 tag = arg
     if new:
-        password = generate_password(length)
-        print(password)
+        print("Generating new password")
+        password = generate_password(length, no_symbols)
+        print("password generated")
+        if debug:
+            print(password)
         encrypted_password = encrypt(password, user_password)
         passwords[tag] = encrypted_password
         pyperclip.copy(password)
@@ -47,7 +56,8 @@ def main():
             encrypted_password = passwords[tag]
             password = decrypt(encrypted_password, user_password)
             pyperclip.copy(password)
-            print(password)
+            if debug:
+                print(password)
     if not args:
         for tag in passwords:
             print(tag)
