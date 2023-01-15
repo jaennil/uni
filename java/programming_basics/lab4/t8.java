@@ -8,16 +8,8 @@ public class t8 {
         int middle;
         int right;
         int amount = 0;
-        try {
-            left = console.nextInt();
-            System.out.println(1);
-            middle = console.nextInt();
-            System.out.println(1);
-        } catch (InputMismatchException e) {
-            System.out.println("Error: " + e);
-            console.close();
-            return;
-        }
+        left = Integer.MIN_VALUE;
+        middle = Integer.MIN_VALUE;
 
         while (true) {
             try {
@@ -27,6 +19,12 @@ public class t8 {
                 break;
             }
             if (left < middle && middle > right) {
+                amount++;
+            }
+            if (left < middle) {
+                amount++;
+            }
+            if (right > middle) {
                 amount++;
             }
             left = middle;

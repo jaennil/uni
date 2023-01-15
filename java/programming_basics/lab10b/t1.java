@@ -12,8 +12,8 @@ public class t1 {
         System.out.print("enter second number: ");
         int n2 = Integer.parseInt(in.nextLine());
         System.out.println("GCD: " + gcd(n1, n2));
-	int div = n1 > n2 ? n2 : n1;
-        System.out.println("recursive GCD: " + rgcd(n1, n2, div));
+        int div = n1 > n2 ? n2 : n1;
+        System.out.println("recursive GCD: " + rgcd(n1, n2));
     }
 
     public static int gcd(int n1, int n2) {
@@ -27,11 +27,22 @@ public class t1 {
         return -1;
     }
 
-    public static int rgcd(int n1, int n2, int div) {
-        // recursive realisation of greatest common divisor
-	if (div == 1) return 1;
-	if (n1 % div == 0 && n2 % div == 0) return div;
-	return rgcd(n1, n2, div-1);
+    public static int rgcd(int n1, int n2) {
+        if (n1 > n2) {
+            if (n2 != 1) {
+                if (n1 % n2 == 0) {
+                    return n2;
+                }
+                return rgcd(n1, n2 - 1);
+            }
+        } else if (n2 > n1) {
+            if (n1 != 1) {
+                if (n2 % n1 == 0) {
+                    return n1;
+                }
+                return rgcd(n2, n1-1);
+            }
+        }
+        return 1;
     }
-
 }

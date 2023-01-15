@@ -20,6 +20,7 @@ public class t4 {
         int current;
         int length = 1;
         int max = 1;
+        int similar = 1;
         while (true) {
             // print stuff
             System.out.println(max);
@@ -43,16 +44,20 @@ public class t4 {
                 case 1:
                     if (current < previous) {
                         mode = -1;
-                        length = 2;
+                        length = similar;
+                        similar = 1;
                     } else {
+                        similar++;
                         length++;
                     }
                     break;
                 case -1:
                     if (current > previous) {
                         mode = 1;
-                        length = 2;
+                        length = similar;
+                        similar = 1;
                     } else {
+                        similar++;
                         length++;
                     }
                     break;
