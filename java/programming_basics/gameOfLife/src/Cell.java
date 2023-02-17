@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Cell {
-    public static final int SIZE = 15;
+    public static int SIZE;
     private boolean alive;
     public int i, j;
     private Color color;
