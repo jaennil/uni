@@ -11,8 +11,8 @@ import java.util.Timer;
 public class Field extends JFrame {
     public int rows, columns;
     private Cell[][] cells;
-    public static final int WIDTH = 1000;
-    public static final int HEIGHT = 1000;
+    public static final int WIDTH = 3200;
+    public static final int HEIGHT = 2000;
     public static final int WINDOW_LOCATION_X = 0;
     public static final int WINDOW_LOCATION_Y = 0;
 
@@ -27,9 +27,11 @@ public class Field extends JFrame {
     }
 
     public void createCells() {
-        ArrayList<ArrayList<Byte>> field = fromFile("src/field.txt");
+        // ArrayList<ArrayList<Byte>> field = fromFile("src/field.txt");
+        ArrayList<ArrayList<Byte>> field = fromRandom(7000,  7000);
         this.rows = field.size();
         this.columns = field.get(0).size();
+        Cell.SIZE = 1;
         this.cells = new Cell[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -56,6 +58,17 @@ public class Field extends JFrame {
             System.out.println("ABORT: file not found " + path);
         } catch (IOException ioException) {
             System.out.println("ABORT: io exception");
+        }
+        return field;
+    }
+
+    private static ArrayList<ArrayList<Byte>> fromRandom(int rows, int columns) {
+        ArrayList<ArrayList<Byte>> field = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            field.add(new ArrayList<Byte>());
+            for (int j = 0; j < columns; j++) {
+                field.get(i).add((byte)(Math.random() < 0.5 ? 0 : 1));
+            }
         }
         return field;
     }
@@ -92,34 +105,6 @@ public class Field extends JFrame {
         }
     }
 
-    private void print(Cell[][] cells, String label) {
-        System.out.println("--- " + label + " ---");
-        for (Cell[] row : cells) {
-            for (Cell cell : row) {
-                System.out.print((cell.isAlive() ? 1 : 0) + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    private void print(ArrayList<Cell> row) {
-        for (Cell cell : row) {
-            System.out.println("i = " + String.valueOf(cell.i) + " j = " + String.valueOf(cell.j));
-        }
-    }
-
-    private void printNeighbors(ArrayList<Cell> neighbors, int i, int j) {
-        System.out.println("--- neighbors ---");
-        System.out.println("cell: i = " + i + " j = " + j);
-        print(neighbors);
-    }
-
-    private void printAliveNeighbors(ArrayList<Cell> aliveNeighbors, int i, int j) {
-        System.out.println("--- alive neighbors ---");
-        System.out.println("cell: i = " + i + " j = " + j);
-        print(aliveNeighbors);
-    }
-
     private ArrayList<Cell> getAliveNeighbors(ArrayList<Cell> neighbors) {
         ArrayList<Cell> aliveNeighbors = new ArrayList<>();
         for (Cell neighbor : neighbors) {
@@ -140,8 +125,6 @@ public class Field extends JFrame {
                 }
                 int ni = i;
                 int nj = j;
-                // exclude cells outside the field
-                // if (i < 0 || i == rows || j < 0 || j == columns) continue;
                 if (i < 0) ni = rows - 1;
                 if (j < 0) nj = columns - 1;
                 if (i == rows) ni = 0;
