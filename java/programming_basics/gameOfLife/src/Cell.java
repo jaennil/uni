@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 
 public class Cell {
@@ -6,7 +5,6 @@ public class Cell {
     private boolean alive;
     public int i, j;
     private Color color;
-    protected JButton button;
 
     public Cell(int i, int j, boolean alive) {
         this.i = i;
@@ -20,7 +18,7 @@ public class Cell {
     }
 
     public boolean isDead() {
-        return !alive;
+        return alive == false;
     }
 
     public Color getColor() {
@@ -28,28 +26,21 @@ public class Cell {
     }
 
     public void setAlive() {
-        this.alive = true;
+        alive = true;
         updateColor();
     }
 
     public void setDead() {
-        this.alive = false;
+        alive = false;
         updateColor();
     }
 
     public void updateColor() {
-        if (alive) {
-            color = Color.BLACK;
-        } else {
-            color = Color.WHITE;
-        }
-        if (button != null) {
-            button.setBackground(color);
-        }
+        color = alive ? Color.BLACK : Color.WHITE;
     }
 
     public void draw(Graphics graphics) {
         graphics.setColor(this.color);
-        graphics.fillRect(this.i * SIZE + 40, this.j * SIZE + 50, SIZE, SIZE);
+        graphics.fillRect(this.j * SIZE + 40, this.i * SIZE + 50, SIZE, SIZE);
     }
 }

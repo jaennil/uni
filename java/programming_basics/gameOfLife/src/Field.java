@@ -3,59 +3,120 @@ import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.Timer;
 
 public class Field extends JFrame {
+    private Timer timer;
     public int rows, columns;
     private Cell[][] cells;
-    public static final int WIDTH = 3200;
-    public static final int HEIGHT = 2000;
-    public static final int WINDOW_LOCATION_X = 0;
-    public static final int WINDOW_LOCATION_Y = 0;
+    public static final int WIDTH = 3200, HEIGHT = 2000;
+    public static final int WINDOW_SPAWN_X = 0, WINDOW_SPAWN_Y = 0;
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    private final int period = 10;
 
     public Field() {
         createCells();
-        setBounds(WINDOW_LOCATION_X, WINDOW_LOCATION_Y, WIDTH, HEIGHT);
+        initWindow();
+        createGameLoopTimer();
+        startGameControlsHandler();
+    }
+
+    private void startGameControlsHandler() {
+        System.out.println("type \"stop\" to stop game, \"resume\" to resume game");
+        String input = scanner.nextLine();
+        switch (input) {
+            case "stop" -> timer.cancel();
+            case "resume" -> createGameLoopTimer();
+            default -> System.out.println("wrong command");
+        }
+        startGameControlsHandler();
+    }
+
+    private void initWindow() {
+        setBounds(WINDOW_SPAWN_X, WINDOW_SPAWN_Y, WIDTH, HEIGHT);
         setTitle("Game of life");
         setLayout(null);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameLoopTimer(1);
     }
 
     public void createCells() {
-        // ArrayList<ArrayList<Byte>> field = fromFile("src/field.txt");
-        ArrayList<ArrayList<Byte>> field = fromRandom(7000,  7000);
-        this.rows = field.size();
-        this.columns = field.get(0).size();
-        Cell.SIZE = 1;
+        this.rows = promptRows();
+        this.columns = promptColumns();
+        ArrayList<ArrayList<Byte>> field = fromFile(promptPath());
+//        ArrayList<ArrayList<Byte>> field = fromRandom(7000,  7000);
+        int cellHeight = HEIGHT/columns;
+        int cellWidth = WIDTH/rows;
+        int cellSize = cellWidth < cellHeight ? cellWidth + 1 : cellHeight + 1;
+        while (cellSize*rows > HEIGHT || cellSize * columns > WIDTH) {
+            cellSize -= 1;
+        }
+        Cell.SIZE = cellSize;
         this.cells = new Cell[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                cells[i][j] = new Cell(i, j, field.get(i).get(j) == 1);
+                cells[i][j] = new Cell(i, j, false);
+            }
+        }
+        int x = promptX();
+        int y = promptY();
+        for (int i = 0; i < field.size(); i++) {
+            for (int j = 0; j < field.get(0).size(); j++) {
+                byte cellValue = field.get(i).get(j);
+                cells[i+y][j+x] = new Cell(i+y, j+x, cellValue == 1);
             }
         }
     }
 
+    private int promptRows() {
+        System.out.print("Enter amount of rows: ");
+        String line = scanner.nextLine();
+        return Integer.parseInt(line);
+    }
+
+    private int promptColumns() {
+        System.out.print("Enter amount of columns: ");
+        String line = scanner.nextLine();
+        return Integer.parseInt(line);
+    }
+
+    private int promptX() {
+        System.out.print("Enter x: ");
+        String line = scanner.nextLine();
+        return Integer.parseInt(line);
+    }
+
+    private int promptY() {
+        System.out.print("Enter y: ");
+        String line = scanner.nextLine();
+        return Integer.parseInt(line);
+    }
+
+    private String promptPath() {
+        System.out.println("Enter path to the file: ");
+        return scanner.nextLine();
+    }
+
     public static ArrayList<ArrayList<Byte>> fromFile(String path) {
         ArrayList<ArrayList<Byte>> field = new ArrayList<>();
+
         try (FileReader fileReader = new FileReader(path)) {
             Scanner scanner = new Scanner(fileReader);
-            String line;
             while (scanner.hasNextLine()) {
-                line = scanner.nextLine();
+                String line = scanner.nextLine();
                 ArrayList<Byte> row = new ArrayList<>();
                 for (int i = 0; i < line.length(); i++) {
                     row.add(Byte.parseByte(line.substring(i, i + 1)));
                 }
                 field.add(row);
             }
-            scanner.close();
         } catch (FileNotFoundException exception) {
-            System.out.println("ABORT: file not found " + path);
+            System.out.println("ABORT: file not found at " + path);
+            System.out.println("using default file at samples/glider.txt instead");
+            return fromFile("samples/glider.txt");
         } catch (IOException ioException) {
             System.out.println("ABORT: io exception");
         }
@@ -65,7 +126,7 @@ public class Field extends JFrame {
     private static ArrayList<ArrayList<Byte>> fromRandom(int rows, int columns) {
         ArrayList<ArrayList<Byte>> field = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
-            field.add(new ArrayList<Byte>());
+            field.add(new ArrayList<>());
             for (int j = 0; j < columns; j++) {
                 field.get(i).add((byte)(Math.random() < 0.5 ? 0 : 1));
             }
@@ -73,8 +134,8 @@ public class Field extends JFrame {
         return field;
     }
 
-    public void gameLoopTimer(int period) {
-        Timer timer = new Timer();
+    public void createGameLoopTimer() {
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
                 gameLoop();
@@ -83,15 +144,13 @@ public class Field extends JFrame {
     }
 
     public void gameLoop() {
-        // System.out.println("game loop");
         Cell[][] state = clone(cells);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                // System.out.println("for");
                 Cell cell = state[i][j];
-                Cell newCell = cells[i][j];
                 ArrayList<Cell> neighbors = getNeighbors(cell, state);
                 ArrayList<Cell> aliveNeighbors = getAliveNeighbors(neighbors);
+                Cell newCell = cells[i][j];
                 if (cell.isAlive()) {
                     if (aliveNeighbors.size() < 2 || aliveNeighbors.size() > 3) {
                         newCell.setDead();
