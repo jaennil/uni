@@ -10,12 +10,13 @@ public class Field extends JFrame {
     private Timer timer;
     public int rows, columns;
     private Cell[][] cells;
+    private ArrayList<Cell[][]> states = new ArrayList<>();
     public static final int WIDTH = 3200, HEIGHT = 2000;
     public static final int WINDOW_SPAWN_X = 0, WINDOW_SPAWN_Y = 0;
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    private final int period = 10;
+    private final int period = 1;
 
     public Field() {
         createCells();
@@ -25,14 +26,17 @@ public class Field extends JFrame {
     }
 
     private void startGameControlsHandler() {
-        System.out.println("type \"stop\" to stop game, \"resume\" to resume game");
-        String input = scanner.nextLine();
-        switch (input) {
-            case "stop" -> timer.cancel();
-            case "resume" -> createGameLoopTimer();
-            default -> System.out.println("wrong command");
+        while (true) {
+            System.out.println("type \"stop\" to stop game, \"resume\" to resume game,\nincrease to increase cell size , decrease to decrease cell size");
+            String input = scanner.nextLine();
+            switch (input) {
+                case "stop" -> timer.cancel();
+                case "resume" -> createGameLoopTimer();
+                case "increase" -> Cell.SIZE += 1;
+                case "decrease" -> Cell.SIZE -= 1;
+                default -> System.out.println("wrong command");
+            }
         }
-        startGameControlsHandler();
     }
 
     private void initWindow() {
@@ -65,8 +69,12 @@ public class Field extends JFrame {
         int y = promptY();
         for (int i = 0; i < field.size(); i++) {
             for (int j = 0; j < field.get(0).size(); j++) {
-                byte cellValue = field.get(i).get(j);
-                cells[i+y][j+x] = new Cell(i+y, j+x, cellValue == 1);
+                try {
+                    byte cellValue = field.get(i).get(j);
+                    cells[i+y][j+x] = new Cell(i+y, j+x, cellValue == 1);
+                } catch (Exception exc) {
+                    cells[i+y][j+x] = new Cell(i+y, j+x, false);
+                }
             }
         }
     }
@@ -96,7 +104,7 @@ public class Field extends JFrame {
     }
 
     private String promptPath() {
-        System.out.println("Enter path to the file: ");
+        System.out.print("Enter path to the file: ");
         return scanner.nextLine();
     }
 
@@ -114,7 +122,7 @@ public class Field extends JFrame {
                 field.add(row);
             }
         } catch (FileNotFoundException exception) {
-            System.out.println("ABORT: file not found at " + path);
+            System.out.println("ABORT: file not found at " + (path.isEmpty() ? "%path not provided%" : path));
             System.out.println("using default file at samples/glider.txt instead");
             return fromFile("samples/glider.txt");
         } catch (IOException ioException) {
@@ -162,6 +170,8 @@ public class Field extends JFrame {
                 }
             }
         }
+        states.add(state);
+        checkEndGame();
     }
 
     private ArrayList<Cell> getAliveNeighbors(ArrayList<Cell> neighbors) {
@@ -172,6 +182,52 @@ public class Field extends JFrame {
             }
         }
         return aliveNeighbors;
+    }
+
+    private void checkEndGame() {
+        if (allCellsDead()) {
+            System.out.println("game end! all cells dead");
+            timer.cancel();
+        }
+        if (stateNotChanged()) {
+            System.out.println("game end! state not changed");
+            timer.cancel();
+        }
+    }
+
+    private boolean allCellsDead() {
+        for (Cell[] row:
+             cells) {
+            for (Cell cell: row) {
+                if (cell.isAlive()) return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean stateNotChanged() {
+        if (states.isEmpty()) return false;
+        if (states.size() == 1) return false;
+        for (int i = 0; i < states.size()-1; i++) {
+            if (equals(cells, states.get(i))) {
+                return true;
+            }
+        }
+        return false;
+        // Cell[][] lastState = states.get(states.size() - 1);
+        // return equals(lastState, cells);
+    }
+
+    private boolean equals(Cell[][] first, Cell[][] second) {
+        if (first.length != second.length) return false;
+        if (first[0].length != second[0].length) return false;
+        for (int i = 0; i < first.length; i++) {
+            for (int j = 0; j < first[0].length; j++) {
+                if (first[i][j].isDead() && second[i][j].isAlive()) return false;
+                if (first[i][j].isAlive() && second[i][j].isDead()) return false;
+            }
+        }
+        return true;
     }
 
     private ArrayList<Cell> getNeighbors(Cell cell, Cell[][] cells) {
