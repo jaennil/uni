@@ -17,6 +17,7 @@ public class Field extends JFrame {
     private static final Scanner scanner = new Scanner(System.in);
 
     private final int period = 1;
+    private boolean checkEndGame = false;
 
     public Field() {
         createCells();
@@ -27,13 +28,14 @@ public class Field extends JFrame {
 
     private void startGameControlsHandler() {
         while (true) {
-            System.out.println("type \"stop\" to stop game, \"resume\" to resume game,\nincrease to increase cell size , decrease to decrease cell size");
+            System.out.println("type \"stop\" to stop game, \"resume\" to resume game,\nincrease to increase cell size , decrease to decrease cell size, check to enable game end check");
             String input = scanner.nextLine();
             switch (input) {
                 case "stop" -> timer.cancel();
                 case "resume" -> createGameLoopTimer();
                 case "increase" -> Cell.SIZE += 1;
                 case "decrease" -> Cell.SIZE -= 1;
+                case "check" -> checkEndGame = !checkEndGame;
                 default -> System.out.println("wrong command");
             }
         }
@@ -110,7 +112,6 @@ public class Field extends JFrame {
 
     public static ArrayList<ArrayList<Byte>> fromFile(String path) {
         ArrayList<ArrayList<Byte>> field = new ArrayList<>();
-
         try (FileReader fileReader = new FileReader(path)) {
             Scanner scanner = new Scanner(fileReader);
             while (scanner.hasNextLine()) {
@@ -171,7 +172,7 @@ public class Field extends JFrame {
             }
         }
         states.add(state);
-        checkEndGame();
+        if (checkEndGame) checkEndGame();
     }
 
     private ArrayList<Cell> getAliveNeighbors(ArrayList<Cell> neighbors) {
