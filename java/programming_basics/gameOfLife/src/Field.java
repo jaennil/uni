@@ -1,52 +1,18 @@
 import javax.swing.*;
-import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.Timer;
 
 public class Field extends JFrame {
-    private Timer timer;
     public int rows, columns;
-    private Cell[][] cells;
-    private ArrayList<Cell[][]> states = new ArrayList<>();
+    public Cell[][] cells;
+    public ArrayList<Cell[][]> states = new ArrayList<>();
     public static final int WIDTH = 3200, HEIGHT = 2000;
-    public static final int WINDOW_SPAWN_X = 0, WINDOW_SPAWN_Y = 0;
-
     private static final Scanner scanner = new Scanner(System.in);
-
-    private final int period = 1;
-    private boolean checkEndGame = false;
 
     public Field() {
         createCells();
-        initWindow();
-        createGameLoopTimer();
-        startGameControlsHandler();
-    }
-
-    private void startGameControlsHandler() {
-        while (true) {
-            System.out.println("type \"stop\" to stop game, \"resume\" to resume game,\nincrease to increase cell size , decrease to decrease cell size, check to enable game end check");
-            String input = scanner.nextLine();
-            switch (input) {
-                case "stop" -> timer.cancel();
-                case "resume" -> createGameLoopTimer();
-                case "increase" -> Cell.SIZE += 1;
-                case "decrease" -> Cell.SIZE -= 1;
-                case "check" -> checkEndGame = !checkEndGame;
-                default -> System.out.println("wrong command");
-            }
-        }
-    }
-
-    private void initWindow() {
-        setBounds(WINDOW_SPAWN_X, WINDOW_SPAWN_Y, WIDTH, HEIGHT);
-        setTitle("Game of life");
-        setLayout(null);
-        setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void createCells() {
@@ -68,7 +34,15 @@ public class Field extends JFrame {
             }
         }
         int x = promptX();
+        while (x + field.get(0).size() > columns) {
+            System.out.println("wrong x :)");
+            x = promptX();
+        }
         int y = promptY();
+        while (y + field.size() > rows) {
+            System.out.println("wrong y :)");
+            y = promptY();
+        }
         for (int i = 0; i < field.size(); i++) {
             for (int j = 0; j < field.get(0).size(); j++) {
                 try {
@@ -143,39 +117,7 @@ public class Field extends JFrame {
         return field;
     }
 
-    public void createGameLoopTimer() {
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            public void run() {
-                gameLoop();
-            }
-        }, 0, period);
-    }
-
-    public void gameLoop() {
-        Cell[][] state = clone(cells);
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                Cell cell = state[i][j];
-                ArrayList<Cell> neighbors = getNeighbors(cell, state);
-                ArrayList<Cell> aliveNeighbors = getAliveNeighbors(neighbors);
-                Cell newCell = cells[i][j];
-                if (cell.isAlive()) {
-                    if (aliveNeighbors.size() < 2 || aliveNeighbors.size() > 3) {
-                        newCell.setDead();
-                    }
-                } else {
-                    if (aliveNeighbors.size() == 3) {
-                        newCell.setAlive();
-                    }
-                }
-            }
-        }
-        states.add(state);
-        if (checkEndGame) checkEndGame();
-    }
-
-    private ArrayList<Cell> getAliveNeighbors(ArrayList<Cell> neighbors) {
+    public ArrayList<Cell> getAliveNeighbors(ArrayList<Cell> neighbors) {
         ArrayList<Cell> aliveNeighbors = new ArrayList<>();
         for (Cell neighbor : neighbors) {
             if (neighbor.isAlive()) {
@@ -185,18 +127,8 @@ public class Field extends JFrame {
         return aliveNeighbors;
     }
 
-    private void checkEndGame() {
-        if (allCellsDead()) {
-            System.out.println("game end! all cells dead");
-            timer.cancel();
-        }
-        if (stateNotChanged()) {
-            System.out.println("game end! state not changed");
-            timer.cancel();
-        }
-    }
 
-    private boolean allCellsDead() {
+    public boolean allCellsDead() {
         for (Cell[] row:
              cells) {
             for (Cell cell: row) {
@@ -206,7 +138,7 @@ public class Field extends JFrame {
         return true;
     }
 
-    private boolean stateNotChanged() {
+    public boolean stateNotChanged() {
         if (states.isEmpty()) return false;
         if (states.size() == 1) return false;
         for (int i = 0; i < states.size()-1; i++) {
@@ -231,7 +163,7 @@ public class Field extends JFrame {
         return true;
     }
 
-    private ArrayList<Cell> getNeighbors(Cell cell, Cell[][] cells) {
+    public ArrayList<Cell> getNeighbors(Cell cell, Cell[][] cells) {
         ArrayList<Cell> neighbors = new ArrayList<>();
         for (int i = cell.i - 1; i <= cell.i + 1; i++) {
             for (int j = cell.j - 1; j <= cell.j + 1; j++) {
@@ -251,7 +183,7 @@ public class Field extends JFrame {
         return neighbors;
     }
 
-    private Cell[][] clone(Cell[][] cells) {
+    public Cell[][] clone(Cell[][] cells) {
         Cell[][] new_cells = new Cell[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -262,14 +194,4 @@ public class Field extends JFrame {
         return new_cells;
     }
 
-    @Override
-    public void paint(Graphics graphics) {
-        // super.paint(graphics);
-        for (Cell[] row : cells) {
-            for (Cell cell : row) {
-                cell.draw(graphics);
-            }
-        }
-        repaint();
-    }
 }

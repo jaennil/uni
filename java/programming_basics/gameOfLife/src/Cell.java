@@ -21,10 +21,6 @@ public class Cell {
         return alive == false;
     }
 
-    public Color getColor() {
-        return color;
-    }
-
     public void setAlive() {
         alive = true;
         updateColor();
