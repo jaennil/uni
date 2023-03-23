@@ -35,12 +35,12 @@ public class Field extends JFrame {
         }
         int x = promptX();
         while (x + field.get(0).size() > columns) {
-            System.out.println("wrong x :)");
+            System.out.println("wrong x :), try again");
             x = promptX();
         }
         int y = promptY();
         while (y + field.size() > rows) {
-            System.out.println("wrong y :)");
+            System.out.println("wrong y :), try again");
             y = promptY();
         }
         for (int i = 0; i < field.size(); i++) {
@@ -193,5 +193,4 @@ public class Field extends JFrame {
         }
         return new_cells;
     }
-
 }
