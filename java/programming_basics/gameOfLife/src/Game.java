@@ -33,7 +33,7 @@ public class Game {
             public void run() {
                 gameLoop();
             }
-        }, 0, 1);
+        }, 0, 10);
     }
 
     private void checkEndGame() {

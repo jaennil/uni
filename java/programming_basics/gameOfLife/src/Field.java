@@ -1,25 +1,40 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class Field extends JFrame {
+public class Field extends JPanel {
     public int rows, columns;
     public Cell[][] cells;
     public ArrayList<Cell[][]> states = new ArrayList<>();
-    public static final int WIDTH = 3200, HEIGHT = 2000;
+    public static final int WIDTH = 500, HEIGHT = 500;
     private static final Scanner scanner = new Scanner(System.in);
 
     public Field() {
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setLayout(new BorderLayout());
         createCells();
+    }
+
+    private String promptGenerationType() {
+        System.out.println("1 - random generation. 2 - generation from file");
+        return scanner.nextLine();
     }
 
     public void createCells() {
         this.rows = promptRows();
         this.columns = promptColumns();
-        ArrayList<ArrayList<Byte>> field = fromFile(promptPath());
-//        ArrayList<ArrayList<Byte>> field = fromRandom(7000,  7000);
+        ArrayList<ArrayList<Byte>> field = new ArrayList<>();
+        String generationType = promptGenerationType();
+        while (!Objects.equals(generationType, "1") && !Objects.equals(generationType, "2")) {
+            generationType = promptGenerationType();
+        }
+        switch (generationType) {
+            case "1" -> field = fromRandom(7000, 7000);
+            case "2" -> field = fromFile(promptPath());
+        }
         int cellHeight = HEIGHT/columns;
         int cellWidth = WIDTH/rows;
         int cellSize = cellWidth < cellHeight ? cellWidth + 1 : cellHeight + 1;
@@ -192,5 +207,17 @@ public class Field extends JFrame {
             }
         }
         return new_cells;
+    }
+
+
+    @Override
+    public void paintComponent(Graphics graphics) {
+//        super.paint(graphics);
+        for (Cell[] row : this.cells) {
+            for (Cell cell : row) {
+                cell.draw(graphics);
+            }
+        }
+        repaint();
     }
 }

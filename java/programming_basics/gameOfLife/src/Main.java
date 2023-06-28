@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
         Field field = new Field();
-        new Window(field);
+        Window window  = new Window(field);
         new Game(field);
     }
 }
